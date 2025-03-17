@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useTheme } from 'next-themes'
 import { SunIcon, MoonIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
@@ -15,13 +15,21 @@ const navigation = [
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  // 避免水合不匹配
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   return (
-    <header className="bg-white dark:bg-gray-900">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
+    <header className="sticky top-0 z-50 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-sm">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between p-4 lg:px-8" aria-label="Global">
         <div className="flex lg:flex-1">
-          <Link href="/" className="-m-1.5 p-1.5">
-            <span className="text-2xl font-bold text-gray-900 dark:text-white">夏旭东</span>
+          <Link href="/" className="-m-1.5 p-1.5 flex items-center space-x-2">
+            <span className="sr-only">夏旭东</span>
+            <div className="h-8 w-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-sm font-bold">XD</div>
+            <span className="text-xl font-bold text-gray-900 dark:text-white">夏旭东</span>
           </Link>
         </div>
         <div className="flex lg:hidden">
@@ -34,12 +42,12 @@ export default function Header() {
             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
-        <div className="hidden lg:flex lg:gap-x-12">
+        <div className="hidden lg:flex lg:gap-x-8">
           {navigation.map((item) => (
             <Link
               key={item.name}
               href={item.href}
-              className="text-sm font-semibold leading-6 text-gray-900 hover:text-primary-600 dark:text-white dark:hover:text-primary-400"
+              className="text-sm font-semibold leading-6 text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
             >
               {item.name}
             </Link>
@@ -48,24 +56,24 @@ export default function Header() {
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <button
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            className="rounded-lg p-2.5 text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+            className="rounded-full p-2 bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600 transition-colors"
+            aria-label="切换主题"
           >
-            <span className="sr-only">切换主题</span>
-            {theme === 'dark' ? (
+            {mounted && (theme === 'dark' ? (
               <SunIcon className="h-5 w-5" />
             ) : (
               <MoonIcon className="h-5 w-5" />
-            )}
+            ))}
           </button>
         </div>
       </nav>
       {/* Mobile menu */}
-      <div className={`lg:hidden ${mobileMenuOpen ? '' : 'hidden'}`}>
-        <div className="fixed inset-0 z-50" />
+      <div className={`lg:hidden ${mobileMenuOpen ? 'fixed inset-0 z-50' : 'hidden'}`}>
         <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white dark:bg-gray-900 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
-            <Link href="/" className="-m-1.5 p-1.5">
-              <span className="text-2xl font-bold text-gray-900 dark:text-white">夏旭东</span>
+            <Link href="/" className="-m-1.5 p-1.5 flex items-center space-x-2">
+              <div className="h-8 w-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-sm font-bold">XD</div>
+              <span className="text-xl font-bold text-gray-900 dark:text-white">夏旭东</span>
             </Link>
             <button
               type="button"
@@ -83,27 +91,27 @@ export default function Header() {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 dark:text-white dark:hover:bg-gray-800"
+                    className="block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     {item.name}
                   </Link>
                 ))}
               </div>
-              <div className="py-6">
+              <div className="py-6 flex items-center">
                 <button
                   onClick={() => {
                     setTheme(theme === 'dark' ? 'light' : 'dark')
                     setMobileMenuOpen(false)
                   }}
-                  className="rounded-lg p-2.5 text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+                  className="flex items-center space-x-2 rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 dark:text-white"
                 >
-                  <span className="sr-only">切换主题</span>
-                  {theme === 'dark' ? (
+                  <span>{theme === 'dark' ? '切换到浅色模式' : '切换到深色模式'}</span>
+                  {mounted && (theme === 'dark' ? (
                     <SunIcon className="h-5 w-5" />
                   ) : (
                     <MoonIcon className="h-5 w-5" />
-                  )}
+                  ))}
                 </button>
               </div>
             </div>
