@@ -1,7 +1,6 @@
 [build]
-  command = "npm run build"
+  command = "npm install && npm run build"
   publish = "out"
-  ignore = "git diff --quiet HEAD^ HEAD ./package-lock.json"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
@@ -18,5 +17,5 @@
 
 [build.environment]
   NODE_VERSION = "18"
-  NPM_FLAGS = "--no-optional"
+  NPM_FLAGS = "--legacy-peer-deps"
   NETLIFY_NEXT_PLUGIN_SKIP = "true" 

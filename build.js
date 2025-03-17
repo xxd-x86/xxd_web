@@ -3,6 +3,10 @@ const fs = require('fs');
 const path = require('path');
 
 try {
+  // 安装依赖
+  console.log('Installing dependencies...');
+  execSync('npm install', { stdio: 'inherit' });
+
   // 运行 Next.js 构建
   console.log('Running Next.js build...');
   execSync('npx next build', { stdio: 'inherit' });
