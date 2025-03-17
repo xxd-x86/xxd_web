@@ -121,15 +121,20 @@ export default function Home() {
   // 保存新文本
   const saveNewText = () => {
     if (newText.trim()) {
+      // 先关闭模态框
+      closeEditModal()
+      
+      // 重置动画状态
+      setAnimationComplete(false)
+      setShowText(false)
+      
+      // 更新显示文本
       setDisplayText(newText)
       
-      // 更新后重新初始化文字动画
-      setShowText(false)
+      // 延迟后重新显示文字
       setTimeout(() => {
         setShowText(true)
-      }, 100)
-      
-      closeEditModal()
+      }, 300)
     }
   }
 
