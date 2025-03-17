@@ -23,10 +23,50 @@ export default function Home() {
   const [animationComplete, setAnimationComplete] = useState(false)
   const [initialLoad, setInitialLoad] = useState(true)
   const [showText, setShowText] = useState(false) // 新增状态管理文字显示
+  
+  // 密码验证相关状态
+  const [passwordVerified, setPasswordVerified] = useState(false)
+  const [password, setPassword] = useState('')
+  const [passwordError, setPasswordError] = useState(false)
+  const [showPasswordHint, setShowPasswordHint] = useState(false)
+
+  // 验证密码函数
+  const verifyPassword = () => {
+    if (password === '123456') {
+      setPasswordVerified(true)
+      setPasswordError(false)
+      
+      // 密码验证成功后，延迟一点启动特效页面
+      setTimeout(() => {
+        setShowText(true)
+      }, 1500)
+    } else {
+      setPasswordError(true)
+      setPassword('')
+    }
+  }
+
+  // 处理密码输入
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value)
+    setPasswordError(false)
+  }
+
+  // 处理密码框回车键按下
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      verifyPassword()
+    }
+  }
+
+  // 显示密码提示
+  const togglePasswordHint = () => {
+    setShowPasswordHint(!showPasswordHint)
+  }
 
   // 背景动画效果
   useEffect(() => {
-    if (!canvasRef.current) return
+    if (!canvasRef.current || !passwordVerified) return
 
     const canvas = canvasRef.current
     const ctx = canvas.getContext('2d')
@@ -168,16 +208,11 @@ export default function Home() {
     }
 
     animate()
-    
-    // 2秒后显示文字
-    setTimeout(() => {
-      setShowText(true)
-    }, 1500)
 
     return () => {
       window.removeEventListener('resize', setCanvasSize)
     }
-  }, [])
+  }, [passwordVerified]) // 依赖密码验证状态
 
   // 文字动画效果 - 完全重写
   useEffect(() => {
@@ -400,65 +435,131 @@ export default function Home() {
 
   return (
     <div className="fixed inset-0 overflow-hidden flex items-center justify-center">
-      {/* 背景动画 Canvas */}
-      <canvas
-        ref={canvasRef}
-        className="absolute top-0 left-0 w-full h-full"
-      />
-      
-      {/* 撒花特效 Canvas */}
-      <canvas
-        ref={confettiCanvasRef}
-        className="absolute top-0 left-0 w-full h-full z-20 pointer-events-none"
-      />
-      
-      {/* 主要内容 - 固定在屏幕中央 */}
-      <div className="relative z-10 flex flex-col items-center justify-center px-4 text-center max-w-full">
-        <div className="text-center">
-          {/* 顶部装饰 */}
-          <div className="mb-6 text-blue-300 text-lg tracking-wider animate-pulse">
-            <span className="text-yellow-300 text-2xl mx-1">✧</span>
-            <span className="text-pink-300 text-2xl mx-1">♥</span>
-            <span className="text-blue-300 text-2xl mx-1">✦</span>
-            <span className="text-green-300 text-2xl mx-1">✢</span>
-            <span className="text-purple-300 text-2xl mx-1">✴</span>
-            <span className="text-yellow-300 text-2xl mx-1">✦</span>
-          </div>
-          
-          {/* 主要文字 */}
-          <h1 
-            ref={textRef}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-blue-400 via-purple-400 to-pink-400 text-shadow-glow tracking-wide max-w-4xl mx-auto"
-            style={{
-              backgroundSize: "200% 200%",
-              animation: "gradient-shift 8s ease infinite"
-            }}
-          >
-            张智萱是超级无敌大帅哥
-          </h1>
-          
-          {/* 底部装饰 */}
-          <div className="mt-6 text-pink-300 text-lg tracking-wider animate-pulse">
-            <span className="text-purple-300 text-2xl mx-1">✴</span>
-            <span className="text-green-300 text-2xl mx-1">✢</span>
-            <span className="text-blue-300 text-2xl mx-1">✦</span>
-            <span className="text-pink-300 text-2xl mx-1">♥</span>
-            <span className="text-yellow-300 text-2xl mx-1">✧</span>
-            <span className="text-blue-300 text-2xl mx-1">✦</span>
-          </div>
-          
-          {/* 动画完成后的装饰图标 */}
-          {animationComplete && (
-            <div className="mt-8 flex justify-center items-center space-x-4">
-              <span className="text-4xl text-yellow-300 animate-float">✨</span>
-              <span className="text-4xl text-pink-300 animate-float-delay-1">💖</span>
-              <span className="text-4xl text-blue-300 animate-float-delay-2">🌟</span>
-              <span className="text-4xl text-green-300 animate-float-delay-3">✨</span>
-              <span className="text-4xl text-purple-300 animate-float-delay-4">💖</span>
+      {/* 密码验证页面 */}
+      {!passwordVerified && (
+        <div className="w-full h-full flex items-center justify-center z-50 bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900">
+          <div className="bg-white/10 backdrop-blur-md p-8 rounded-xl shadow-2xl max-w-md w-full mx-4 border border-white/20 transform transition-all">
+            <h2 className="text-3xl font-bold text-center mb-6 text-white">访问验证</h2>
+            
+            <div className="space-y-6">
+              <div className="relative">
+                <label htmlFor="password" className="block mb-2 text-sm font-medium text-blue-200">
+                  请输入密码
+                </label>
+                <input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  onKeyDown={handleKeyDown}
+                  className={`w-full px-4 py-3 rounded-lg bg-white/10 border ${passwordError ? 'border-red-500' : 'border-blue-300/30'} text-white placeholder-blue-200/50 focus:outline-none focus:ring-2 focus:ring-blue-400`}
+                  placeholder="输入密码以继续..."
+                  autoFocus
+                />
+                {passwordError && (
+                  <p className="mt-2 text-sm text-red-400">密码错误，请重试</p>
+                )}
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <button
+                  type="button"
+                  onClick={togglePasswordHint}
+                  className="text-sm text-blue-300 hover:text-blue-100 transition-colors"
+                >
+                  需要提示？
+                </button>
+                <button
+                  type="button"
+                  onClick={verifyPassword}
+                  className="px-5 py-2.5 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium rounded-lg shadow-lg hover:from-blue-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all transform hover:scale-105"
+                >
+                  确认
+                </button>
+              </div>
+              
+              {showPasswordHint && (
+                <div className="mt-4 p-3 bg-blue-900/50 rounded-lg border border-blue-400/30">
+                  <p className="text-sm text-blue-200">
+                    <span className="font-semibold">提示：</span> 最简单的6位数字
+                  </p>
+                </div>
+              )}
             </div>
-          )}
+            
+            <div className="mt-6 text-center">
+              <p className="text-xs text-blue-200/70">
+                此页面受密码保护，需要正确密码才能访问。
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
+      
+      {/* 特效页面 - 仅在密码验证通过后显示 */}
+      {passwordVerified && (
+        <>
+          {/* 背景动画 Canvas */}
+          <canvas
+            ref={canvasRef}
+            className="absolute top-0 left-0 w-full h-full"
+          />
+          
+          {/* 撒花特效 Canvas */}
+          <canvas
+            ref={confettiCanvasRef}
+            className="absolute top-0 left-0 w-full h-full z-20 pointer-events-none"
+          />
+          
+          {/* 主要内容 - 固定在屏幕中央 */}
+          <div className="relative z-10 flex flex-col items-center justify-center px-4 text-center max-w-full">
+            <div className="text-center">
+              {/* 顶部装饰 */}
+              <div className="mb-6 text-blue-300 text-lg tracking-wider animate-pulse">
+                <span className="text-yellow-300 text-2xl mx-1">✧</span>
+                <span className="text-pink-300 text-2xl mx-1">♥</span>
+                <span className="text-blue-300 text-2xl mx-1">✦</span>
+                <span className="text-green-300 text-2xl mx-1">✢</span>
+                <span className="text-purple-300 text-2xl mx-1">✴</span>
+                <span className="text-yellow-300 text-2xl mx-1">✦</span>
+              </div>
+              
+              {/* 主要文字 */}
+              <h1 
+                ref={textRef}
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-blue-400 via-purple-400 to-pink-400 text-shadow-glow tracking-wide max-w-4xl mx-auto"
+                style={{
+                  backgroundSize: "200% 200%",
+                  animation: "gradient-shift 8s ease infinite"
+                }}
+              >
+                张智萱是超级无敌大帅哥
+              </h1>
+              
+              {/* 底部装饰 */}
+              <div className="mt-6 text-pink-300 text-lg tracking-wider animate-pulse">
+                <span className="text-purple-300 text-2xl mx-1">✴</span>
+                <span className="text-green-300 text-2xl mx-1">✢</span>
+                <span className="text-blue-300 text-2xl mx-1">✦</span>
+                <span className="text-pink-300 text-2xl mx-1">♥</span>
+                <span className="text-yellow-300 text-2xl mx-1">✧</span>
+                <span className="text-blue-300 text-2xl mx-1">✦</span>
+              </div>
+              
+              {/* 动画完成后的装饰图标 */}
+              {animationComplete && (
+                <div className="mt-8 flex justify-center items-center space-x-4">
+                  <span className="text-4xl text-yellow-300 animate-float">✨</span>
+                  <span className="text-4xl text-pink-300 animate-float-delay-1">💖</span>
+                  <span className="text-4xl text-blue-300 animate-float-delay-2">🌟</span>
+                  <span className="text-4xl text-green-300 animate-float-delay-3">✨</span>
+                  <span className="text-4xl text-purple-300 animate-float-delay-4">💖</span>
+                </div>
+              )}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   )
 }
