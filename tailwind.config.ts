@@ -23,6 +23,9 @@ const config: Config = {
           900: '#0c4a6e',
         },
       },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+      },
       typography: {
         DEFAULT: {
           css: {
