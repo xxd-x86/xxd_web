@@ -313,12 +313,12 @@ a:hover {
 
 /* 文字发光效果 - 更强烈的发光 */
 .text-shadow-glow {
-  text-shadow: 0 0 10px rgba(101, 116, 255, 0.7),
-               0 0 20px rgba(101, 116, 255, 0.5),
-               0 0 30px rgba(101, 116, 255, 0.4),
-               0 0 40px rgba(101, 116, 255, 0.3),
-               0 0 50px rgba(101, 116, 255, 0.2),
-               0 0 60px rgba(101, 116, 255, 0.1);
+  text-shadow: 0 0 15px rgba(101, 116, 255, 0.8),
+               0 0 25px rgba(101, 116, 255, 0.6),
+               0 0 35px rgba(101, 116, 255, 0.4),
+               0 0 45px rgba(101, 116, 255, 0.3),
+               0 0 55px rgba(101, 116, 255, 0.2),
+               0 0 65px rgba(101, 116, 255, 0.1);
 }
 
 /* 文字动画 - 更夸张的效果 */
@@ -380,7 +380,7 @@ canvas {
 /* 响应式文字大小 */
 @media (max-width: 640px) {
   h1 {
-    font-size: 1.8rem !important;
+    font-size: 2rem !important;
     letter-spacing: 0.05em;
     padding: 0 10px;
     line-height: 1.4;
@@ -410,16 +410,42 @@ h1 span {
   display: inline-block;
   transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   cursor: pointer;
+  user-select: none;
+  position: relative;
 }
 
 h1 span:hover {
-  transform: translateY(-20px) rotate(15deg) scale(1.8);
+  transform: translateY(-20px) rotate(10deg) scale(1.8);
   color: #f472b6;
   text-shadow: 0 0 20px rgba(244, 114, 182, 0.9),
                0 0 30px rgba(244, 114, 182, 0.7),
                0 0 40px rgba(244, 114, 182, 0.5);
   z-index: 10;
   animation: none;
+}
+
+h1 span:hover::after {
+  content: '✨';
+  position: absolute;
+  top: -15px;
+  right: -10px;
+  font-size: 0.5em;
+  animation: twinkle 1s ease-in-out infinite;
+}
+
+/* 装饰元素动画优化 */
+.text-yellow-300, .text-pink-300, .text-blue-300, .text-green-300, .text-purple-300 {
+  display: inline-block;
+  transition: all 0.3s ease;
+  animation: twinkle 1.5s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.text-yellow-300:hover, .text-pink-300:hover, .text-blue-300:hover, 
+.text-green-300:hover, .text-purple-300:hover {
+  transform: scale(1.5) rotate(15deg);
+  cursor: pointer;
+  filter: brightness(1.3);
 }
 
 /* 脉冲动画 */
@@ -561,5 +587,55 @@ h1 span:hover {
 }
 
 .text-purple-300 {
+  animation-delay: 1.2s;
+}
+
+/* 新增动画效果 */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* 浮动动画效果 */
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-float-delay-1 {
+  animation: float 3s ease-in-out infinite;
+  animation-delay: 0.3s;
+}
+
+.animate-float-delay-2 {
+  animation: float 3s ease-in-out infinite;
+  animation-delay: 0.6s;
+}
+
+.animate-float-delay-3 {
+  animation: float 3s ease-in-out infinite;
+  animation-delay: 0.9s;
+}
+
+.animate-float-delay-4 {
+  animation: float 3s ease-in-out infinite;
   animation-delay: 1.2s;
 } 
