@@ -121,20 +121,32 @@ export default function Home() {
   // 保存新文本
   const saveNewText = () => {
     if (newText.trim()) {
-      // 先关闭模态框
-      closeEditModal()
-      
-      // 重置动画状态
-      setAnimationComplete(false)
-      setShowText(false)
-      
-      // 更新显示文本
+      // 先设置新文本
       setDisplayText(newText)
       
-      // 延迟后重新显示文字
+      // 关闭编辑模态框
+      closeEditModal()
+      
+      // 完全重置动画状态
+      setAnimationComplete(false)
+      setShowText(false)
+      setInitialLoad(true)
+      
+      // 清空文本区域
+      if (textRef.current) {
+        textRef.current.innerHTML = ''
+      }
+      
+      // 使用多级延迟确保状态更新和DOM渲染
       setTimeout(() => {
-        setShowText(true)
-      }, 300)
+        console.log('准备显示文字')
+        setInitialLoad(false)
+        
+        setTimeout(() => {
+          console.log('设置显示文字状态为true')
+          setShowText(true)
+        }, 200)
+      }, 100)
     }
   }
 
