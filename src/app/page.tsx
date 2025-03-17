@@ -1,10 +1,26 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+
+// 撒花粒子类型
+type Confetti = {
+  x: number
+  y: number
+  radius: number
+  color: string
+  velocity: {
+    x: number
+    y: number
+  }
+  rotation: number
+  rotationSpeed: number
+}
 
 export default function Home() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const confettiCanvasRef = useRef<HTMLCanvasElement>(null)
   const textRef = useRef<HTMLDivElement>(null)
+  const [animationComplete, setAnimationComplete] = useState(false)
 
   // 背景动画效果
   useEffect(() => {
@@ -127,8 +143,8 @@ export default function Home() {
     letters.forEach((letter, index) => {
       const span = document.createElement('span')
       span.innerText = letter
-      span.className = 'inline-block transform transition-all duration-700'
-      span.style.animationDelay = `${index * 0.1}s`
+      span.className = 'inline-block transform transition-all duration-700 opacity-0'
+      span.style.animationDelay = `${index * 0.15}s`
       text.appendChild(span)
     })
     
@@ -140,30 +156,144 @@ export default function Home() {
       if (index < spans.length) {
         spans[index].classList.add('text-animate')
         index++
-        setTimeout(animateLetters, 100)
+        setTimeout(animateLetters, 150)
       } else {
-        // 动画完成后，设置循环
+        // 动画完成后，设置状态触发撒花效果
         setTimeout(() => {
-          spans.forEach(span => span.classList.remove('text-animate'))
-          index = 0
-          setTimeout(animateLetters, 500)
-        }, 3000)
+          setAnimationComplete(true)
+        }, 500)
       }
     }
     
-    animateLetters()
+    // 开始文字动画
+    setTimeout(animateLetters, 500)
     
     return () => {
       // 清理动画
     }
   }, [])
 
+  // 撒花特效
+  useEffect(() => {
+    if (!animationComplete || !confettiCanvasRef.current) return
+
+    const canvas = confettiCanvasRef.current
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    let width = window.innerWidth
+    let height = window.innerHeight
+
+    // 设置canvas尺寸
+    const setCanvasSize = () => {
+      width = window.innerWidth
+      height = window.innerHeight
+      canvas.width = width
+      canvas.height = height
+    }
+
+    setCanvasSize()
+    window.addEventListener('resize', setCanvasSize)
+
+    // 创建撒花粒子
+    const confetti: Confetti[] = []
+    const confettiCount = 200
+    const colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4CAF50', '#8BC34A', '#FFEB3B', '#FFC107', '#FF9800', '#FF5722']
+
+    for (let i = 0; i < confettiCount; i++) {
+      const randomColor = colors[Math.floor(Math.random() * colors.length)]
+      confetti.push({
+        x: width / 2,
+        y: height / 2,
+        radius: Math.random() * 6 + 2,
+        color: randomColor,
+        velocity: {
+          x: (Math.random() - 0.5) * 10,
+          y: (Math.random() - 0.5) * 10
+        },
+        rotation: Math.random() * 360,
+        rotationSpeed: (Math.random() - 0.5) * 2
+      })
+    }
+
+    // 撒花动画
+    const gravity = 0.15
+    const friction = 0.99
+    let confettiActive = true
+
+    const animateConfetti = () => {
+      ctx.clearRect(0, 0, width, height)
+
+      if (confettiActive) {
+        for (const particle of confetti) {
+          particle.velocity.y += gravity
+          particle.velocity.x *= friction
+          particle.velocity.y *= friction
+          
+          particle.x += particle.velocity.x
+          particle.y += particle.velocity.y
+          particle.rotation += particle.rotationSpeed
+
+          // 绘制五彩纸屑
+          ctx.save()
+          ctx.translate(particle.x, particle.y)
+          ctx.rotate(particle.rotation * Math.PI / 180)
+          
+          // 随机形状：圆形、矩形、三角形
+          const shape = Math.floor(Math.random() * 3)
+          
+          ctx.fillStyle = particle.color
+          if (shape === 0) {
+            // 圆形
+            ctx.beginPath()
+            ctx.arc(0, 0, particle.radius, 0, Math.PI * 2)
+            ctx.fill()
+          } else if (shape === 1) {
+            // 矩形
+            ctx.fillRect(-particle.radius, -particle.radius / 2, particle.radius * 2, particle.radius)
+          } else {
+            // 三角形
+            ctx.beginPath()
+            ctx.moveTo(0, -particle.radius)
+            ctx.lineTo(particle.radius, particle.radius)
+            ctx.lineTo(-particle.radius, particle.radius)
+            ctx.closePath()
+            ctx.fill()
+          }
+          
+          ctx.restore()
+        }
+      }
+
+      // 判断是否所有粒子都落出画布
+      if (confetti.every(p => p.y > height)) {
+        confettiActive = false
+      }
+
+      if (confettiActive) {
+        requestAnimationFrame(animateConfetti)
+      }
+    }
+
+    animateConfetti()
+
+    return () => {
+      window.removeEventListener('resize', setCanvasSize)
+    }
+  }, [animationComplete])
+
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden flex items-center justify-center">
       {/* 背景动画 Canvas */}
       <canvas
         ref={canvasRef}
         className="absolute top-0 left-0 w-full h-full"
+      />
+      
+      {/* 撒花特效 Canvas */}
+      <canvas
+        ref={confettiCanvasRef}
+        className="absolute top-0 left-0 w-full h-full z-20 pointer-events-none"
       />
       
       {/* 主要内容 */}
@@ -171,10 +301,17 @@ export default function Home() {
         <div className="text-center">
           <h1 
             ref={textRef}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 text-shadow-glow tracking-wide leading-tight"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 text-shadow-glow tracking-wide leading-tight"
           >
             张智萱是超级无敌大帅哥
           </h1>
+          {animationComplete && (
+            <div className="mt-6 animate-bounce">
+              <span className="text-2xl text-yellow-300">✨</span>
+              <span className="text-2xl text-pink-300 mx-2">💖</span>
+              <span className="text-2xl text-yellow-300">✨</span>
+            </div>
+          )}
         </div>
       </div>
     </div>

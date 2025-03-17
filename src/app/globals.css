@@ -18,6 +18,9 @@ body {
   -webkit-font-smoothing: antialiased;
   background-color: var(--background-dark);
   color: var(--foreground-dark);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 /* 美化卡片元素 */
