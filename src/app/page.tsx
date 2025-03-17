@@ -300,57 +300,20 @@ export default function Home() {
     }
   }, [passwordVerified]) // 依赖密码验证状态
 
-  // 文字动画效果 - 完全重写
+  // 文字动画效果 - 使用React状态管理
   useEffect(() => {
-    if (!textRef.current || !showText) return
+    if (!showText) return
     
-    const text = textRef.current
-    const letters = displayText.split('')
+    // 重置动画状态
+    setAnimationComplete(false)
     
-    // 清空原始文本
-    text.innerHTML = ''
+    // 延迟后触发撒花效果
+    const timer = setTimeout(() => {
+      setAnimationComplete(true)
+    }, displayText.length * 80 + 500)
     
-    // 为每个字母创建具有更丰富效果的span
-    letters.forEach((letter, index) => {
-      const span = document.createElement('span')
-      span.innerText = letter
-      span.style.opacity = '0'
-      span.style.display = 'inline-block'
-      span.style.transform = 'translateY(40px) rotateY(90deg) scale(0.5)'
-      span.style.transition = `all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) ${index * 0.08}s`
-      text.appendChild(span)
-      
-      // 为每个字符添加独特的悬停效果
-      span.onmouseover = () => {
-        span.style.color = `hsl(${Math.random() * 360}, 100%, 70%)`
-        span.style.transform = 'translateY(-15px) scale(1.4) rotate(5deg)'
-        span.style.textShadow = '0 0 20px currentColor'
-        span.style.zIndex = '10'
-      }
-      
-      span.onmouseout = () => {
-        span.style.color = ''
-        span.style.transform = 'translateY(0) scale(1) rotate(0)'
-        span.style.textShadow = ''
-        span.style.zIndex = '1'
-      }
-    })
-    
-    // 延迟一点后开始逐个显示字符
-    setTimeout(() => {
-      const spans = text.querySelectorAll('span')
-      spans.forEach((span) => {
-        span.style.opacity = '1'
-        span.style.transform = 'translateY(0) rotateY(0) scale(1)'
-      })
-      
-      // 所有字符显示完成后，触发撒花效果
-      setTimeout(() => {
-        setAnimationComplete(true)
-      }, letters.length * 80 + 500)
-    }, 300)
-    
-  }, [showText, displayText]) // 依赖showText状态和displayText
+    return () => clearTimeout(timer)
+  }, [showText, displayText])
 
   // 撒花特效 - 更丰富的效果
   useEffect(() => {
@@ -610,15 +573,31 @@ export default function Home() {
               </div>
               
               {/* 主要文字 */}
-              <h1 
-                ref={textRef}
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-blue-400 via-purple-400 to-pink-400 text-shadow-glow tracking-wide max-w-4xl mx-auto"
-                style={{
-                  backgroundSize: "200% 200%",
-                  animation: "gradient-shift 8s ease infinite"
-                }}
-              >
-                {displayText}
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-blue-400 via-purple-400 to-pink-400 text-shadow-glow tracking-wide max-w-4xl mx-auto">
+                {displayText.split('').map((letter, index) => (
+                  <span
+                    key={index}
+                    className="inline-block opacity-0 transform translate-y-10 rotate-y-90 scale-50 transition-all duration-800"
+                    style={{
+                      animation: showText ? `fadeInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) ${index * 0.08}s forwards` : 'none',
+                      animationFillMode: 'forwards'
+                    }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.color = `hsl(${Math.random() * 360}, 100%, 70%)`
+                      e.currentTarget.style.transform = 'translateY(-15px) scale(1.4) rotate(5deg)'
+                      e.currentTarget.style.textShadow = '0 0 20px currentColor'
+                      e.currentTarget.style.zIndex = '10'
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.color = ''
+                      e.currentTarget.style.transform = 'translateY(0) scale(1) rotate(0)'
+                      e.currentTarget.style.textShadow = ''
+                      e.currentTarget.style.zIndex = '1'
+                    }}
+                  >
+                    {letter}
+                  </span>
+                ))}
               </h1>
               
               {/* 底部装饰 */}
