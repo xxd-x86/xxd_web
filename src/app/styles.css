@@ -8,7 +8,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
+  overflow: hidden; /* 防止滚动 */
+  width: 100vw;
+  height: 100vh;
+  position: fixed; /* 固定全屏 */
 }
 
 .dark body {
@@ -308,49 +311,76 @@ a:hover {
   }
 }
 
-/* 文字发光效果 */
+/* 文字发光效果 - 更强烈的发光 */
 .text-shadow-glow {
-  text-shadow: 0 0 10px rgba(101, 116, 255, 0.6),
-               0 0 20px rgba(101, 116, 255, 0.4),
-               0 0 30px rgba(101, 116, 255, 0.3),
-               0 0 40px rgba(101, 116, 255, 0.2);
+  text-shadow: 0 0 10px rgba(101, 116, 255, 0.7),
+               0 0 20px rgba(101, 116, 255, 0.5),
+               0 0 30px rgba(101, 116, 255, 0.4),
+               0 0 40px rgba(101, 116, 255, 0.3),
+               0 0 50px rgba(101, 116, 255, 0.2),
+               0 0 60px rgba(101, 116, 255, 0.1);
 }
 
-/* 文字动画 */
+/* 文字动画 - 更夸张的效果 */
 .text-animate {
-  animation: textAnimate 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  animation: textAnimate 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
   opacity: 0;
-  transform: translateY(30px) scale(0.5);
-  filter: blur(10px);
+  transform: translateY(40px) scale(0.3) rotate(-5deg);
+  filter: blur(20px);
 }
 
 @keyframes textAnimate {
   0% {
     opacity: 0;
-    transform: translateY(30px) scale(0.5);
-    filter: blur(10px);
+    transform: translateY(40px) scale(0.3) rotate(-5deg);
+    filter: blur(20px);
   }
-  60% {
-    opacity: 0.8;
-    filter: blur(2px);
-    transform: translateY(-5px) scale(1.05);
+  50% {
+    opacity: 0.7;
+    filter: blur(5px);
+    transform: translateY(-10px) scale(1.1) rotate(5deg);
+  }
+  75% {
+    transform: translateY(5px) scale(0.95) rotate(-2deg);
   }
   100% {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0) scale(1) rotate(0);
     filter: blur(0);
+  }
+}
+
+/* 闪光效果 */
+.glow-effect {
+  animation: glowPulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes glowPulse {
+  0% {
+    text-shadow: 0 0 5px rgba(101, 116, 255, 0.5),
+                0 0 10px rgba(101, 116, 255, 0.3);
+  }
+  100% {
+    text-shadow: 0 0 20px rgba(255, 102, 204, 0.8),
+                0 0 30px rgba(255, 102, 204, 0.6),
+                0 0 40px rgba(255, 102, 204, 0.4);
   }
 }
 
 /* 背景动画 */
 canvas {
   display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 /* 响应式文字大小 */
 @media (max-width: 640px) {
   h1 {
-    font-size: 2rem !important;
+    font-size: 1.8rem !important;
     letter-spacing: 0.05em;
     padding: 0 10px;
     line-height: 1.4;
@@ -359,67 +389,50 @@ canvas {
 
 @media (min-width: 641px) and (max-width: 768px) {
   h1 {
-    font-size: 3rem !important;
+    font-size: 2.5rem !important;
   }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
   h1 {
-    font-size: 4rem !important;
+    font-size: 3.5rem !important;
   }
 }
 
 @media (min-width: 1025px) {
   h1 {
-    font-size: 5rem !important;
+    font-size: 4.5rem !important;
   }
 }
 
-/* 旋转文字效果 */
+/* 旋转文字效果 - 更生动的效果 */
 h1 span {
   display: inline-block;
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
 }
 
 h1 span:hover {
-  transform: translateY(-15px) rotate(10deg) scale(1.5);
+  transform: translateY(-20px) rotate(15deg) scale(1.8);
   color: #f472b6;
-  text-shadow: 0 0 15px rgba(244, 114, 182, 0.8);
+  text-shadow: 0 0 20px rgba(244, 114, 182, 0.9),
+               0 0 30px rgba(244, 114, 182, 0.7),
+               0 0 40px rgba(244, 114, 182, 0.5);
+  z-index: 10;
+  animation: none;
 }
 
-/* 渐变背景 */
-.bg-gradient-animate {
-  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-  background-size: 400% 400%;
-  animation: gradient 15s ease infinite;
+/* 脉冲动画 */
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
   }
   50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-/* 动画效果 */
-.float-animation {
-  animation: float 6s ease-in-out infinite;
-}
-
-@keyframes float {
-  0% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-  100% {
-    transform: translateY(0px);
+    opacity: 0.3;
   }
 }
 
@@ -429,10 +442,10 @@ h1 span:hover {
     transform: translateY(0);
   }
   40% {
-    transform: translateY(-20px);
+    transform: translateY(-25px);
   }
   60% {
-    transform: translateY(-10px);
+    transform: translateY(-15px);
   }
 }
 
@@ -440,11 +453,113 @@ h1 span:hover {
   animation: bounce 2s ease infinite;
 }
 
-/* 页面居中布局 */
-.flex-center {
+/* 确保页面内容永远居中 */
+.fixed {
+  position: fixed;
+}
+
+.inset-0 {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.flex {
   display: flex;
+}
+
+.items-center {
   align-items: center;
+}
+
+.justify-center {
   justify-content: center;
-  min-height: 100vh;
-  width: 100%;
+}
+
+.z-10 {
+  z-index: 10;
+}
+
+.z-20 {
+  z-index: 20;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.pointer-events-none {
+  pointer-events: none;
+}
+
+.bg-clip-text {
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.text-transparent {
+  color: transparent;
+}
+
+.bg-gradient-to-br {
+  background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+}
+
+.from-blue-400 {
+  --tw-gradient-from: #60a5fa;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(96, 165, 250, 0));
+}
+
+.via-purple-400 {
+  --tw-gradient-stops: var(--tw-gradient-from), #c084fc, var(--tw-gradient-to, rgba(192, 132, 252, 0));
+}
+
+.to-pink-400 {
+  --tw-gradient-to: #f472b6;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.tracking-wide {
+  letter-spacing: 0.025em;
+}
+
+/* 闪烁的星星装饰 */
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.7);
+  }
+}
+
+.text-yellow-300, .text-pink-300, .text-blue-300, .text-green-300, .text-purple-300 {
+  display: inline-block;
+  animation: twinkle 1.5s ease-in-out infinite;
+}
+
+.text-pink-300 {
+  animation-delay: 0.3s;
+}
+
+.text-blue-300 {
+  animation-delay: 0.6s;
+}
+
+.text-green-300 {
+  animation-delay: 0.9s;
+}
+
+.text-purple-300 {
+  animation-delay: 1.2s;
 } 

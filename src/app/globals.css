@@ -20,7 +20,9 @@ body {
   color: var(--foreground-dark);
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
 }
 
 /* 美化卡片元素 */
