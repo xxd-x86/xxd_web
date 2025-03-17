@@ -5,15 +5,8 @@
 :root {
   --primary-color: #3b82f6;
   --primary-dark: #2563eb;
-  --background-light: #ffffff;
-  --foreground-light: #171717;
-  --background-dark: #111827;
+  --background-dark: #0f1729;
   --foreground-dark: #f3f4f6;
-}
-
-.dark {
-  --background: var(--background-dark);
-  --foreground: var(--foreground-dark);
 }
 
 html {
@@ -21,9 +14,10 @@ html {
 }
 
 body {
-  @apply bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
+  background-color: var(--background-dark);
+  color: var(--foreground-dark);
 }
 
 /* 美化卡片元素 */
