@@ -35,7 +35,7 @@ export default function Home() {
   const [editPassword, setEditPassword] = useState('')
   const [editPasswordError, setEditPasswordError] = useState(false)
   const [showEditForm, setShowEditForm] = useState(false)
-  const [displayText, setDisplayText] = useState("张智萱是超级无敌大帅哥")
+  const [displayText, setDisplayText] = useState("杨涵锦就tm是个雷军")
   const [newText, setNewText] = useState("")
 
   // 验证密码函数
