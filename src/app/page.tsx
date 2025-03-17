@@ -29,6 +29,14 @@ export default function Home() {
   const [password, setPassword] = useState('')
   const [passwordError, setPasswordError] = useState(false)
   const [showPasswordHint, setShowPasswordHint] = useState(false)
+  
+  // 文字编辑相关状态
+  const [showEditModal, setShowEditModal] = useState(false)
+  const [editPassword, setEditPassword] = useState('')
+  const [editPasswordError, setEditPasswordError] = useState(false)
+  const [showEditForm, setShowEditForm] = useState(false)
+  const [displayText, setDisplayText] = useState("张智萱是超级无敌大帅哥")
+  const [newText, setNewText] = useState("")
 
   // 验证密码函数
   const verifyPassword = () => {
@@ -62,6 +70,67 @@ export default function Home() {
   // 显示密码提示
   const togglePasswordHint = () => {
     setShowPasswordHint(!showPasswordHint)
+  }
+  
+  // 打开编辑模态框
+  const openEditModal = () => {
+    setShowEditModal(true)
+    setEditPassword('')
+    setEditPasswordError(false)
+    setShowEditForm(false)
+  }
+  
+  // 关闭编辑模态框
+  const closeEditModal = () => {
+    setShowEditModal(false)
+    setEditPassword('')
+    setEditPasswordError(false)
+    setShowEditForm(false)
+  }
+  
+  // 验证编辑密码
+  const verifyEditPassword = () => {
+    if (editPassword === 'Dg@050522') {
+      setEditPasswordError(false)
+      setShowEditForm(true)
+      setNewText(displayText)
+    } else {
+      setEditPasswordError(true)
+      setEditPassword('')
+    }
+  }
+  
+  // 处理编辑密码输入
+  const handleEditPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditPassword(e.target.value)
+    setEditPasswordError(false)
+  }
+  
+  // 处理编辑密码框回车键按下
+  const handleEditPasswordKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      verifyEditPassword()
+    }
+  }
+  
+  // 处理新文本输入
+  const handleNewTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewText(e.target.value)
+  }
+  
+  // 保存新文本
+  const saveNewText = () => {
+    if (newText.trim()) {
+      setDisplayText(newText)
+      
+      // 更新后重新初始化文字动画
+      setShowText(false)
+      setTimeout(() => {
+        setShowText(true)
+      }, 100)
+      
+      closeEditModal()
+    }
   }
 
   // 背景动画效果
@@ -219,8 +288,7 @@ export default function Home() {
     if (!textRef.current || !showText) return
     
     const text = textRef.current
-    const content = "张智萱是超级无敌大帅哥"
-    const letters = content.split('')
+    const letters = displayText.split('')
     
     // 清空原始文本
     text.innerHTML = ''
@@ -265,7 +333,7 @@ export default function Home() {
       }, letters.length * 80 + 500)
     }, 300)
     
-  }, [showText]) // 依赖showText状态
+  }, [showText, displayText]) // 依赖showText状态和displayText
 
   // 撒花特效 - 更丰富的效果
   useEffect(() => {
@@ -533,7 +601,7 @@ export default function Home() {
                   animation: "gradient-shift 8s ease infinite"
                 }}
               >
-                张智萱是超级无敌大帅哥
+                {displayText}
               </h1>
               
               {/* 底部装饰 */}
@@ -558,6 +626,107 @@ export default function Home() {
               )}
             </div>
           </div>
+          
+          {/* 编辑按钮 - 固定在右下角 */}
+          <button
+            onClick={openEditModal}
+            className="absolute bottom-4 right-4 z-30 bg-white/10 backdrop-blur-md p-2 rounded-full shadow-lg border border-white/20 hover:bg-white/20 transition-all transform hover:scale-110 text-white/70 hover:text-white"
+            title="编辑文字"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+            </svg>
+          </button>
+          
+          {/* 编辑模态框 */}
+          {showEditModal && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+              <div className="bg-white/10 backdrop-blur-md p-6 rounded-xl shadow-2xl max-w-md w-full mx-4 border border-white/20 animate-fadeInUp">
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-xl font-bold text-white">
+                    {showEditForm ? '编辑显示文字' : '验证编辑权限'}
+                  </h3>
+                  <button
+                    onClick={closeEditModal}
+                    className="text-white/70 hover:text-white p-1"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+                
+                {!showEditForm ? (
+                  // 密码验证表单
+                  <div className="space-y-4">
+                    <div className="relative">
+                      <label htmlFor="editPassword" className="block mb-2 text-sm font-medium text-blue-200">
+                        请输入编辑密码
+                      </label>
+                      <input
+                        id="editPassword"
+                        type="password"
+                        value={editPassword}
+                        onChange={handleEditPasswordChange}
+                        onKeyDown={handleEditPasswordKeyDown}
+                        className={`w-full px-4 py-3 rounded-lg bg-white/10 border ${editPasswordError ? 'border-red-500 animate-shake' : 'border-blue-300/30'} text-white placeholder-blue-200/50 focus:outline-none focus:ring-2 focus:ring-blue-400`}
+                        placeholder="输入密码以编辑文字..."
+                        autoFocus
+                      />
+                      {editPasswordError && (
+                        <p className="mt-2 text-sm text-red-400">密码错误，无法编辑</p>
+                      )}
+                    </div>
+                    
+                    <div className="flex justify-end">
+                      <button
+                        type="button"
+                        onClick={verifyEditPassword}
+                        className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium rounded-lg shadow-lg hover:from-blue-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all"
+                      >
+                        验证
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  // 编辑文字表单
+                  <div className="space-y-4">
+                    <div className="relative">
+                      <label htmlFor="newText" className="block mb-2 text-sm font-medium text-blue-200">
+                        输入新的显示文字
+                      </label>
+                      <input
+                        id="newText"
+                        type="text"
+                        value={newText}
+                        onChange={handleNewTextChange}
+                        className="w-full px-4 py-3 rounded-lg bg-white/10 border border-blue-300/30 text-white placeholder-blue-200/50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        placeholder="输入新文字..."
+                        autoFocus
+                      />
+                    </div>
+                    
+                    <div className="flex justify-between">
+                      <button
+                        type="button"
+                        onClick={closeEditModal}
+                        className="px-4 py-2 bg-gray-600/60 text-white font-medium rounded-lg shadow-lg hover:bg-gray-700/60 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all"
+                      >
+                        取消
+                      </button>
+                      <button
+                        type="button"
+                        onClick={saveNewText}
+                        className="px-4 py-2 bg-gradient-to-r from-green-500 to-teal-600 text-white font-medium rounded-lg shadow-lg hover:from-green-600 hover:to-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all"
+                      >
+                        保存
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </>
       )}
     </div>
