@@ -90,7 +90,7 @@ export default function Home() {
   
   // 验证编辑密码
   const verifyEditPassword = () => {
-    if (editPassword === 'Dg@050522') {
+    if (editPassword === '9316893098') {
       setEditPasswordError(false)
       setShowEditForm(true)
       setNewText(displayText)
@@ -640,8 +640,8 @@ export default function Home() {
           
           {/* 编辑模态框 */}
           {showEditModal && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-              <div className="bg-white/10 backdrop-blur-md p-6 rounded-xl shadow-2xl max-w-md w-full mx-4 border border-white/20 animate-fadeInUp">
+            <div className="fixed inset-0 z-50 pointer-events-none">
+              <div className="absolute bottom-16 right-4 pointer-events-auto bg-white/10 backdrop-blur-md p-6 rounded-xl shadow-2xl max-w-md w-full sm:w-96 border border-white/20 animate-fadeInUp">
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-xl font-bold text-white">
                     {showEditForm ? '编辑显示文字' : '验证编辑权限'}
