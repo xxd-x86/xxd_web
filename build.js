@@ -2,9 +2,16 @@ const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-// 运行 Next.js 构建
-console.log('Running Next.js build...');
-execSync('next build', { stdio: 'inherit' });
+try {
+  // 运行 Next.js 构建
+  console.log('Running Next.js build...');
+  execSync('npx next build', { stdio: 'inherit' });
+  
+  console.log('Build completed successfully!');
+} catch (error) {
+  console.error('Build failed:', error);
+  process.exit(1);
+}
 
 // 确保 out 目录存在
 if (!fs.existsSync('out')) {
@@ -35,6 +42,4 @@ const copyDir = (src, dest) => {
   }
 };
 
-copyDir('public', 'out');
-
-console.log('Build completed successfully!'); 
+copyDir('public', 'out'); 
