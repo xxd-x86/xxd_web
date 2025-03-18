@@ -761,258 +761,319 @@ h1 span:hover::after {
 
 /* 古风主题背景 */
 .ancient-bg {
-  background: var(--bg-primary);
-  background-image: 
-    url('/images/ancient-bg.jpg'), 
-    radial-gradient(circle, #f9f0e6, #e8d5b9);
-  background-size: cover;
-  background-position: center;
+  background: linear-gradient(135deg, #f8ecd5 0%, #f5e6d3 100%);
   background-attachment: fixed;
-  overflow: hidden;
+  min-height: 100vh;
   position: relative;
+  overflow-x: hidden;
 }
 
-/* 背景叠加层 - 营造古风氛围 */
 .ancient-bg::before {
-  content: "";
-  position: absolute;
+  content: '';
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   background-image: url('/images/rice-paper.png');
-  background-size: 200px;
-  opacity: 0.04;
+  opacity: 0.1;
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
 }
 
 /* 响应式卷轴容器 - 优化为适合诗词展示 */
 .ancient-scroll {
-  max-width: 800px;
-  width: 90%;
-  margin: 0 auto;
-  padding: 2rem;
-  position: relative;
   background: var(--scroll-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 5px;
-  box-shadow: 0 10px 30px var(--shadow-color), 
-              inset 0 0 30px var(--shadow-color);
-  transition: all 0.3s ease-in-out;
-  overflow: hidden;
-  z-index: 10;
-}
-
-/* 卷轴内容区 - 改进为诗词风格 */
-.scroll-content {
+  border: 2px solid var(--scroll-border);
+  box-shadow: 0 4px 20px var(--scroll-shadow);
+  padding: 2rem;
+  border-radius: 8px;
   position: relative;
-  padding: 1.5rem;
-  z-index: 1;
-  background: linear-gradient(to bottom, 
-    rgba(245, 222, 179, 0.05) 0%, 
-    rgba(245, 222, 179, 0.2) 50%, 
-    rgba(245, 222, 179, 0.05) 100%);
-  border-radius: 4px;
-  line-height: 1.8;
+  max-width: 800px;
+  margin: 2rem auto;
+  backdrop-filter: blur(10px);
+  transform: translateY(0);
+  transition: transform 0.3s ease;
 }
 
-/* 改进诗词装饰样式 */
+.ancient-scroll::before,
+.ancient-scroll::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  background-image: url('/images/paper-texture.png');
+  opacity: 0.1;
+  border-radius: 6px;
+}
+
+.ancient-scroll::before {
+  transform: translate(-4px, -4px);
+  z-index: -1;
+}
+
+.ancient-scroll::after {
+  transform: translate(4px, 4px);
+  z-index: -1;
+}
+
+/* 诗词装饰 */
 .poetry-decoration {
-  position: relative;
-  padding: 1rem 0;
-  margin: 1rem 0;
-  font-family: "Noto Serif SC", "STSong", "FZShuSong-Z01S", serif;
-  border-top: 1px solid rgba(139, 69, 19, 0.1);
-  border-bottom: 1px solid rgba(139, 69, 19, 0.1);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .poetry-decoration::before,
 .poetry-decoration::after {
-  content: "※";
+  content: '❖';
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  color: rgba(139, 69, 19, 0.4);
-  font-size: 0.8rem;
+  color: var(--ancient-accent);
+  font-size: 2rem;
+  opacity: 0.3;
 }
 
 .poetry-decoration::before {
-  left: 10%;
+  top: 1rem;
+  left: 1rem;
+  transform: rotate(-45deg);
 }
 
 .poetry-decoration::after {
-  right: 10%;
+  bottom: 1rem;
+  right: 1rem;
+  transform: rotate(135deg);
 }
 
-/* 漂浮诗词样式优化 */
-.poetry-float {
-  font-family: "Noto Serif SC", "STSong", "FZShuSong-Z01S", serif;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  max-width: 300px;
-  filter: blur(0.3px);
-  padding: 0.5rem 1rem;
-  background: var(--poetry-bg);
-  border-radius: 3px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-}
-
-/* 修改标题和文本样式 */
-.ancient-title {
-  font-family: "Ma Shan Zheng", "STXingkai", "FZXingKai-S04S", serif;
-  color: var(--text-primary);
-  text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1);
-  letter-spacing: 0.1em;
-  line-height: 1.5;
+/* 诗词内容 */
+.poetry-content {
+  position: relative;
+  z-index: 1;
   text-align: center;
-  position: relative;
-  padding-bottom: 1rem;
+  padding: 2rem;
 }
 
-.ancient-title::after {
-  content: "";
+.poetry-title {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 2.5rem;
+  color: var(--ancient-text);
+  margin-bottom: 2rem;
+  text-shadow: 2px 2px 4px var(--ancient-shadow);
+  position: relative;
+  display: inline-block;
+}
+
+.poetry-title::before,
+.poetry-title::after {
+  content: '❖';
   position: absolute;
-  bottom: 0;
-  left: 25%;
-  right: 25%;
-  height: 1px;
-  background: linear-gradient(to right, 
-    transparent, 
-    rgba(139, 69, 19, 0.3), 
-    transparent);
+  color: var(--ancient-accent);
+  font-size: 1.5rem;
+  opacity: 0.5;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
-.ancient-text {
-  font-family: "Noto Serif SC", "STSong", "FZShuSong-Z01S", serif;
-  color: var(--text-primary);
-  line-height: 1.8;
-  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+.poetry-title::before {
+  left: -2rem;
 }
 
-/* 改进引言样式 */
-.poetry-quote {
+.poetry-title::after {
+  right: -2rem;
+}
+
+.poetry-text {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.8rem;
+  line-height: 2;
+  color: var(--ancient-text);
+  margin: 0;
+  text-shadow: 1px 1px 2px var(--ancient-shadow);
   position: relative;
+  display: inline-block;
+}
+
+/* 编辑按钮 */
+.edit-button {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--button-bg);
+  color: var(--ancient-bg);
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 4px;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1rem;
+  cursor: pointer;
   transition: all 0.3s ease;
-  padding: 1rem;
-  background: var(--poetry-bg);
-  border-radius: 5px;
-  margin-bottom: 1.5rem;
-  border-left: 3px solid rgba(139, 69, 19, 0.2);
+  box-shadow: 0 2px 8px var(--ancient-shadow);
+  z-index: 100;
 }
 
-.poetry-quote:hover {
-  transform: translateY(-3px);
-  background: rgba(245, 222, 179, 0.25);
-  border-left: 3px solid rgba(139, 69, 19, 0.4);
+.edit-button:hover {
+  background: var(--button-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--ancient-shadow);
 }
 
-.poetry-quote:hover::after {
-  content: "点击更换诗词";
-  position: absolute;
-  bottom: -12px;
-  right: 10px;
-  font-size: 0.7rem;
-  color: rgba(139, 69, 19, 0.7);
-  white-space: nowrap;
-  opacity: 0.8;
+/* 编辑模态框 */
+.edit-modal {
+  position: fixed;
+  bottom: 5rem;
+  right: 2rem;
   background: var(--scroll-bg);
-  padding: 2px 8px;
-  border-radius: 3px;
+  border: 2px solid var(--scroll-border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  width: 300px;
+  box-shadow: 0 4px 20px var(--scroll-shadow);
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+  transform: translateY(0);
+  transition: transform 0.3s ease;
 }
 
-.poetry-author {
-  font-family: "Noto Serif SC", "STSong", "FZShuSong-Z01S", serif;
-  transition: opacity 0.3s ease;
-  text-align: right;
-  font-style: italic;
-  padding-right: 1rem;
+.edit-modal.hidden {
+  transform: translateY(100px);
+  opacity: 0;
+  pointer-events: none;
 }
 
-/* 云纹装饰 */
-.chinese-cloud {
-  position: absolute;
-  background-image: url('/images/cloud.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: 0.35;
-  filter: hue-rotate(15deg) brightness(1.2);
-  animation: floatCloud 60s infinite linear;
+.edit-input {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--input-border);
+  border-radius: 4px;
+  background: var(--input-bg);
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1rem;
+  color: var(--ancient-text);
+  transition: all 0.3s ease;
 }
 
-/* 新增:诗词页面分割线 */
-.poetry-divider {
-  position: relative;
-  height: 1px;
-  background: linear-gradient(to right, 
-    transparent 0%, 
-    rgba(139, 69, 19, 0.2) 20%, 
-    rgba(139, 69, 19, 0.3) 50%,
-    rgba(139, 69, 19, 0.2) 80%,
-    transparent 100%);
-  margin: 1.5rem 0;
+.edit-input:focus {
+  outline: none;
+  border-color: var(--input-focus);
+  box-shadow: 0 0 0 2px rgba(210, 105, 30, 0.2);
 }
 
-.poetry-divider::before {
-  content: "❖";
-  position: absolute;
+.edit-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.edit-button,
+.save-button,
+.cancel-button {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 4px;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.save-button {
+  background: var(--button-bg);
+  color: var(--ancient-bg);
+}
+
+.cancel-button {
+  background: transparent;
+  color: var(--ancient-text);
+  border: 1px solid var(--ancient-border);
+}
+
+.save-button:hover,
+.cancel-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px var(--ancient-shadow);
+}
+
+/* 密码验证界面 */
+.password-container {
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: var(--scroll-bg);
-  padding: 0 10px;
-  color: rgba(139, 69, 19, 0.5);
-  font-size: 0.8rem;
+  border: 2px solid var(--scroll-border);
+  border-radius: 8px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 4px 20px var(--scroll-shadow);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
 }
 
-/* 优化按钮样式 */
-.ancient-button {
-  background: linear-gradient(to bottom, rgba(218, 165, 32, 0.9), rgba(139, 69, 19, 0.9));
-  color: #FFF8DC;
-  border: 1px solid rgba(139, 69, 19, 0.5);
-  padding: 0.7rem 1.5rem;
-  font-family: "FangSong", "楷体", "KaiTi", serif;
-  font-size: 1rem;
-  letter-spacing: 0.1em;
+.password-title {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 2rem;
+  color: var(--ancient-text);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.password-input {
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--input-border);
   border-radius: 4px;
-  cursor: pointer;
+  background: var(--input-bg);
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1rem;
+  color: var(--ancient-text);
   transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-  -webkit-tap-highlight-color: transparent;
 }
 
-/* 新增:主文字容器 */
-.main-text-container {
-  position: relative;
-  padding: 1.5rem;
-  background: rgba(245, 222, 179, 0.1);
-  border-radius: 5px;
-  margin: 1rem 0;
-  overflow: hidden;
+.password-input:focus {
+  outline: none;
+  border-color: var(--input-focus);
+  box-shadow: 0 0 0 2px rgba(210, 105, 30, 0.2);
 }
 
-.main-text-container::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url('/images/paper-texture.png');
-  background-size: 200px;
-  opacity: 0.1;
-  pointer-events: none;
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .ancient-scroll {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .poetry-title {
+    font-size: 2rem;
+  }
+
+  .poetry-text {
+    font-size: 1.5rem;
+  }
+
+  .edit-modal {
+    width: calc(100% - 4rem);
+    right: 2rem;
+  }
+
+  .password-container {
+    width: calc(100% - 2rem);
+    margin: 1rem;
+  }
 }
 
-/* 诗词动画效果 */
-@keyframes poetryFadeIn {
+/* 动画效果 */
+@keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -1020,400 +1081,39 @@ h1 span:hover::after {
   }
 }
 
-.poetry-animate {
-  animation: poetryFadeIn 1s ease-out forwards;
-}
-
-/* 文字飘动效果 */
-@keyframes textFloat {
-  0%, 100% {
-    transform: translateY(0) rotate(0deg);
+@keyframes float {
+  0% {
+    transform: translateY(0);
   }
   50% {
-    transform: translateY(-5px) rotate(1deg);
+    transform: translateY(-10px);
   }
-}
-
-.text-float {
-  animation: textFloat 5s ease-in-out infinite;
-  display: inline-block;
-}
-
-/* 移动设备适配 */
-@media (max-width: 640px) {
-  .poetry-float {
-    max-width: 180px;
-    font-size: 0.75rem !important;
-    padding: 0.3rem 0.6rem;
-  }
-  
-  .poetry-quote {
-    padding: 0.75rem;
-    margin-bottom: 1.2rem;
-  }
-  
-  .ancient-title::after {
-    left: 15%;
-    right: 15%;
-  }
-  
-  .poetry-divider::before {
-    font-size: 0.6rem;
-  }
-}
-
-/* 适配小屏幕 */
-@media (max-width: 480px) {
-  .poetry-decoration::before,
-  .poetry-decoration::after {
-    display: none;
-  }
-  
-  .poetry-quote:hover::after {
-    font-size: 0.6rem;
-    bottom: -10px;
-    right: 5px;
-    padding: 1px 5px;
-  }
-  
-  .poetry-author {
-    padding-right: 0.5rem;
-    font-size: 0.7rem;
-  }
-}
-
-/* 古风主题 */
-:root {
-  --scroll-bg: #f8ecd5;
-  --text-primary: #612e04;
-  --text-secondary: #8a4a17;
-  --border-color: #b78456;
-  --highlight-color: #daa520;
-  --shadow-color: rgba(97, 46, 4, 0.2);
-  --bg-primary: #f9f0e6;
-  --poetry-color: rgba(139, 69, 19, 0.8);
-  --poetry-bg: rgba(245, 222, 179, 0.15);
-}
-
-/* 主背景 - 更加适合诗词展示 */
-.ancient-bg {
-  background: var(--bg-primary);
-  background-image: 
-    url('/images/ancient-bg.jpg'), 
-    radial-gradient(circle, #f9f0e6, #e8d5b9);
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  overflow: hidden;
-  position: relative;
-}
-
-/* 背景叠加层 - 营造古风氛围 */
-.ancient-bg::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url('/images/rice-paper.png');
-  background-size: 200px;
-  opacity: 0.04;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* 响应式卷轴容器 - 优化为适合诗词展示 */
-.ancient-scroll {
-  max-width: 800px;
-  width: 90%;
-  margin: 0 auto;
-  padding: 2rem;
-  position: relative;
-  background: var(--scroll-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 5px;
-  box-shadow: 0 10px 30px var(--shadow-color), 
-              inset 0 0 30px var(--shadow-color);
-  transition: all 0.3s ease-in-out;
-  overflow: hidden;
-  z-index: 10;
-}
-
-/* 卷轴内容区 - 改进为诗词风格 */
-.scroll-content {
-  position: relative;
-  padding: 1.5rem;
-  z-index: 1;
-  background: linear-gradient(to bottom, 
-    rgba(245, 222, 179, 0.05) 0%, 
-    rgba(245, 222, 179, 0.2) 50%, 
-    rgba(245, 222, 179, 0.05) 100%);
-  border-radius: 4px;
-  line-height: 1.8;
-}
-
-/* 改进诗词装饰样式 */
-.poetry-decoration {
-  position: relative;
-  padding: 1rem 0;
-  margin: 1rem 0;
-  font-family: "Noto Serif SC", "STSong", "FZShuSong-Z01S", serif;
-  border-top: 1px solid rgba(139, 69, 19, 0.1);
-  border-bottom: 1px solid rgba(139, 69, 19, 0.1);
-}
-
-.poetry-decoration::before,
-.poetry-decoration::after {
-  content: "※";
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  color: rgba(139, 69, 19, 0.4);
-  font-size: 0.8rem;
-}
-
-.poetry-decoration::before {
-  left: 10%;
-}
-
-.poetry-decoration::after {
-  right: 10%;
-}
-
-/* 漂浮诗词样式优化 */
-.poetry-float {
-  font-family: "Noto Serif SC", "STSong", "FZShuSong-Z01S", serif;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  max-width: 300px;
-  filter: blur(0.3px);
-  padding: 0.5rem 1rem;
-  background: var(--poetry-bg);
-  border-radius: 3px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-}
-
-/* 修改标题和文本样式 */
-.ancient-title {
-  font-family: "Ma Shan Zheng", "STXingkai", "FZXingKai-S04S", serif;
-  color: var(--text-primary);
-  text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1);
-  letter-spacing: 0.1em;
-  line-height: 1.5;
-  text-align: center;
-  position: relative;
-  padding-bottom: 1rem;
-}
-
-.ancient-title::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 25%;
-  right: 25%;
-  height: 1px;
-  background: linear-gradient(to right, 
-    transparent, 
-    rgba(139, 69, 19, 0.3), 
-    transparent);
-}
-
-.ancient-text {
-  font-family: "Noto Serif SC", "STSong", "FZShuSong-Z01S", serif;
-  color: var(--text-primary);
-  line-height: 1.8;
-  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
-}
-
-/* 改进引言样式 */
-.poetry-quote {
-  position: relative;
-  transition: all 0.3s ease;
-  padding: 1rem;
-  background: var(--poetry-bg);
-  border-radius: 5px;
-  margin-bottom: 1.5rem;
-  border-left: 3px solid rgba(139, 69, 19, 0.2);
-}
-
-.poetry-quote:hover {
-  transform: translateY(-3px);
-  background: rgba(245, 222, 179, 0.25);
-  border-left: 3px solid rgba(139, 69, 19, 0.4);
-}
-
-.poetry-quote:hover::after {
-  content: "点击更换诗词";
-  position: absolute;
-  bottom: -12px;
-  right: 10px;
-  font-size: 0.7rem;
-  color: rgba(139, 69, 19, 0.7);
-  white-space: nowrap;
-  opacity: 0.8;
-  background: var(--scroll-bg);
-  padding: 2px 8px;
-  border-radius: 3px;
-}
-
-.poetry-author {
-  font-family: "Noto Serif SC", "STSong", "FZShuSong-Z01S", serif;
-  transition: opacity 0.3s ease;
-  text-align: right;
-  font-style: italic;
-  padding-right: 1rem;
-}
-
-/* 云纹装饰 */
-.chinese-cloud {
-  position: absolute;
-  background-image: url('/images/cloud.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: 0.35;
-  filter: hue-rotate(15deg) brightness(1.2);
-  animation: floatCloud 60s infinite linear;
-}
-
-/* 新增:诗词页面分割线 */
-.poetry-divider {
-  position: relative;
-  height: 1px;
-  background: linear-gradient(to right, 
-    transparent 0%, 
-    rgba(139, 69, 19, 0.2) 20%, 
-    rgba(139, 69, 19, 0.3) 50%,
-    rgba(139, 69, 19, 0.2) 80%,
-    transparent 100%);
-  margin: 1.5rem 0;
-}
-
-.poetry-divider::before {
-  content: "❖";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: var(--scroll-bg);
-  padding: 0 10px;
-  color: rgba(139, 69, 19, 0.5);
-  font-size: 0.8rem;
-}
-
-/* 优化按钮样式 */
-.ancient-button {
-  background: linear-gradient(to bottom, rgba(218, 165, 32, 0.9), rgba(139, 69, 19, 0.9));
-  color: #FFF8DC;
-  border: 1px solid rgba(139, 69, 19, 0.5);
-  padding: 0.7rem 1.5rem;
-  font-family: "FangSong", "楷体", "KaiTi", serif;
-  font-size: 1rem;
-  letter-spacing: 0.1em;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* 新增:主文字容器 */
-.main-text-container {
-  position: relative;
-  padding: 1.5rem;
-  background: rgba(245, 222, 179, 0.1);
-  border-radius: 5px;
-  margin: 1rem 0;
-  overflow: hidden;
-}
-
-.main-text-container::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url('/images/paper-texture.png');
-  background-size: 200px;
-  opacity: 0.1;
-  pointer-events: none;
-}
-
-/* 诗词动画效果 */
-@keyframes poetryFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
+  100% {
     transform: translateY(0);
   }
 }
 
-.poetry-animate {
-  animation: poetryFadeIn 1s ease-out forwards;
+.fade-in {
+  animation: fadeIn 0.5s ease forwards;
 }
 
-/* 文字飘动效果 */
-@keyframes textFloat {
-  0%, 100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-5px) rotate(1deg);
-  }
+.float {
+  animation: float 3s ease-in-out infinite;
 }
 
-.text-float {
-  animation: textFloat 5s ease-in-out infinite;
-  display: inline-block;
-}
-
-/* 移动设备适配 */
-@media (max-width: 640px) {
-  .poetry-float {
-    max-width: 180px;
-    font-size: 0.75rem !important;
-    padding: 0.3rem 0.6rem;
-  }
-  
-  .poetry-quote {
-    padding: 0.75rem;
-    margin-bottom: 1.2rem;
-  }
-  
-  .ancient-title::after {
-    left: 15%;
-    right: 15%;
-  }
-  
-  .poetry-divider::before {
-    font-size: 0.6rem;
-  }
-}
-
-/* 适配小屏幕 */
-@media (max-width: 480px) {
-  .poetry-decoration::before,
-  .poetry-decoration::after {
-    display: none;
-  }
-  
-  .poetry-quote:hover::after {
-    font-size: 0.6rem;
-    bottom: -10px;
-    right: 5px;
-    padding: 1px 5px;
-  }
-  
-  .poetry-author {
-    padding-right: 0.5rem;
-    font-size: 0.7rem;
-  }
+/* 暗色主题适配 */
+.dark {
+  --ancient-bg: #1a1a1a;
+  --ancient-text: #f8ecd5;
+  --ancient-border: #8B4513;
+  --ancient-accent: #D2691E;
+  --ancient-shadow: rgba(0, 0, 0, 0.3);
+  --scroll-bg: rgba(26, 26, 26, 0.95);
+  --scroll-border: #8B4513;
+  --scroll-shadow: rgba(0, 0, 0, 0.4);
+  --button-bg: #8B4513;
+  --button-hover: #A0522D;
+  --input-bg: rgba(26, 26, 26, 0.8);
+  --input-border: #8B4513;
+  --input-focus: #D2691E;
 } 

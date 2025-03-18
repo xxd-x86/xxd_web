@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 
 // 撒花粒子类型
 type Confetti = {
@@ -441,6 +442,74 @@ export default function Home() {
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
   const decorationCount = isMobile ? 30 : 50
 
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [showPasswordModal, setShowPasswordModal] = useState(true)
+  const [showEditModal, setShowEditModal] = useState(false)
+  const [editText, setEditText] = useState('')
+  const [mainText, setMainText] = useState('张智萱是超级无敌大帅哥')
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    // 检查是否已经验证过
+    const authStatus = localStorage.getItem('isAuthenticated')
+    if (authStatus === 'true') {
+      setIsAuthenticated(true)
+      setShowPasswordModal(false)
+      fetchMainText()
+    }
+  }, [])
+
+  const fetchMainText = async () => {
+    try {
+      const response = await fetch('/api/text')
+      const data = await response.json()
+      if (data.text) {
+        setMainText(data.text)
+      }
+    } catch (err) {
+      console.error('获取文字失败:', err)
+    }
+  }
+
+  const verifyPassword = () => {
+    if (password === '9316893098') {
+      setIsAuthenticated(true)
+      setShowPasswordModal(false)
+      localStorage.setItem('isAuthenticated', 'true')
+      fetchMainText()
+    } else {
+      setError('密码错误，请重试')
+      setTimeout(() => setError(''), 2000)
+    }
+  }
+
+  const handleEdit = async () => {
+    setIsLoading(true)
+    setError('')
+    try {
+      const response = await fetch('/api/text', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: editText }),
+      })
+
+      if (!response.ok) {
+        throw new Error('更新失败')
+      }
+
+      setMainText(editText)
+      setShowEditModal(false)
+    } catch (err) {
+      setError('更新失败，请重试')
+      setTimeout(() => setError(''), 2000)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   return (
     <div className="fixed inset-0 overflow-hidden flex items-center justify-center ancient-bg">
       {/* 背景装饰元素 - 减少移动设备上的数量 */}
@@ -509,7 +578,7 @@ export default function Home() {
       />
       
       {/* 密码验证页面 */}
-      {!passwordVerified && (
+      {!isAuthenticated && (
         <div className="w-full h-full flex items-center justify-center z-50">
           <div className="ancient-scroll ancient-border max-w-md w-full mx-4">
             <div className="corner-tl"></div>
@@ -593,7 +662,7 @@ export default function Home() {
       )}
       
       {/* 特效页面 - 仅在密码验证通过后显示 */}
-      {passwordVerified && (
+      {isAuthenticated && (
         <>
           {/* 诗词漂浮元素 - 背景装饰 */}
           <div className="poetry-floating-elements pointer-events-none">
@@ -643,7 +712,7 @@ export default function Home() {
                 {/* 主要文字 */}
                 <div className="main-text-container">
                   <h1 className="ancient-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl mb-4 tracking-widest">
-                    {displayText.split('').map((letter, index) => (
+                    {mainText.split('').map((letter, index) => (
                       <span
                         key={index}
                         className="inline-block opacity-0 transform translate-y-10 scale-50 transition-all duration-800 text-float"
@@ -697,6 +766,52 @@ export default function Home() {
               </div>
             </div>
           </div>
+        </>
+      )}
+
+      {isAuthenticated && (
+        <>
+          <button
+            onClick={() => setShowEditModal(true)}
+            className="edit-button"
+          >
+            编辑文字
+          </button>
+
+          <AnimatePresence>
+            {showEditModal && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                className="edit-modal"
+              >
+                <input
+                  type="text"
+                  value={editText}
+                  onChange={(e) => setEditText(e.target.value)}
+                  className="edit-input"
+                  placeholder="请输入新的文字"
+                />
+                {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+                <div className="edit-buttons">
+                  <button
+                    onClick={() => setShowEditModal(false)}
+                    className="cancel-button"
+                  >
+                    取消
+                  </button>
+                  <button
+                    onClick={handleEdit}
+                    className="save-button"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? '保存中...' : '保存'}
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </>
       )}
     </div>
