@@ -10,8 +10,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "xxd",
-  description: "展示页面",
+  title: "古风文字展示",
+  description: "优雅的古风文字展示页面",
 };
 
 export default function RootLayout({
@@ -20,14 +20,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="zh" suppressHydrationWarning>
+    <html lang="zh" suppressHydrationWarning className="chinese-theme">
       <head>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" />
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="theme-color" content="#0f1729" />
+        <meta name="theme-color" content="#2C1810" />
       </head>
-      <body className={inter.className}>
+      <body className={`${inter.className} chinese-bg`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
