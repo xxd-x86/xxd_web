@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import "./styles.css";
@@ -11,8 +11,14 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "xxd",
-  description: "锦瑟年华，如诗如画",
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
+  description: "锦瑟年华，如诗如画"
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
   themeColor: "#f8ecd5"
 };
 
