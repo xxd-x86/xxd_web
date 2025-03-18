@@ -396,6 +396,7 @@ export default function Home() {
       const top = Math.random() * 100
       const left = Math.random() * 100
       const delay = Math.random() * 4
+      const size = Math.random() * 3 + 1 // 变化星星大小
       stars.push(
         <div
           key={i}
@@ -403,6 +404,8 @@ export default function Home() {
           style={{
             top: `${top}%`,
             left: `${left}%`,
+            width: `${size}px`,
+            height: `${size}px`,
             animation: `twinkle 4s ${delay}s infinite`
           }}
         />
@@ -410,37 +413,61 @@ export default function Home() {
     }
     return stars
   }
+  
+  // 根据设备设置装饰元素数量
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+  const decorationCount = isMobile ? 30 : 50
 
   return (
     <div className="fixed inset-0 overflow-hidden flex items-center justify-center ancient-bg">
-      {/* 背景装饰元素 */}
+      {/* 背景装饰元素 - 减少移动设备上的数量 */}
       <div className="ancient-decoration">
-        <div className="chinese-cloud cloud-1"></div>
-        <div className="chinese-cloud cloud-2"></div>
+        {!isMobile && (
+          <>
+            <div className="chinese-cloud cloud-1"></div>
+            <div className="chinese-cloud cloud-2"></div>
+          </>
+        )}
         <div className="chinese-cloud cloud-3"></div>
         <div className="chinese-cloud cloud-4"></div>
         
         <div className="lantern lantern-1"></div>
         <div className="lantern lantern-2"></div>
-        <div className="lantern lantern-3"></div>
-        <div className="lantern lantern-4"></div>
+        {!isMobile && (
+          <>
+            <div className="lantern lantern-3"></div>
+            <div className="lantern lantern-4"></div>
+          </>
+        )}
         
         <div className="ribbon ribbon-1"></div>
         <div className="ribbon ribbon-2"></div>
-        <div className="ribbon ribbon-3"></div>
-        <div className="ribbon ribbon-4"></div>
+        {!isMobile && (
+          <>
+            <div className="ribbon ribbon-3"></div>
+            <div className="ribbon ribbon-4"></div>
+          </>
+        )}
         
-        <div className="ink-splash ink-1"></div>
-        <div className="ink-splash ink-2"></div>
+        {!isMobile && (
+          <>
+            <div className="ink-splash ink-1"></div>
+            <div className="ink-splash ink-2"></div>
+          </>
+        )}
         <div className="ink-splash ink-3"></div>
         <div className="ink-splash ink-4"></div>
         
-        <div className="flying-bird bird-1"></div>
-        <div className="flying-bird bird-2"></div>
-        <div className="flying-bird bird-3"></div>
+        {!isMobile && (
+          <>
+            <div className="flying-bird bird-1"></div>
+            <div className="flying-bird bird-2"></div>
+            <div className="flying-bird bird-3"></div>
+          </>
+        )}
         
         <div className="stars">
-          {generateStars(50)}
+          {generateStars(decorationCount)}
         </div>
       </div>
       
@@ -468,13 +495,13 @@ export default function Home() {
             <div className="corner-br"></div>
             
             <div className="scroll-content">
-              <h2 className="ancient-title text-3xl mb-8">玉阙绛阙宫</h2>
+              <h2 className="ancient-title text-3xl mb-6">玉阙绛阙宫</h2>
               
-              <p className="ancient-text text-lg mb-6 tracking-wider text-center">
+              <p className="ancient-text text-lg mb-4 tracking-wider text-center">
                 须凭仙令，方可入内
               </p>
               
-              <div className="space-y-6">
+              <div className="space-y-5">
                 <div className="relative">
                   <input
                     type="password"
@@ -508,7 +535,7 @@ export default function Home() {
                 </div>
                 
                 {showPasswordHint && (
-                  <div className="mt-4 p-3 bg-amber-800/30 rounded-lg border border-amber-700/30 animate-fadeInUp">
+                  <div className="mt-3 p-3 bg-amber-800/30 rounded-lg border border-amber-700/30 animate-fadeInUp">
                     <p className="text-sm text-amber-700 text-center">
                       <span className="font-semibold">提示：</span> 最简单的6位数字
                     </p>
@@ -516,7 +543,7 @@ export default function Home() {
                 )}
               </div>
               
-              <div className="mt-8 text-center">
+              <div className="mt-6 text-center">
                 <p className="text-xs text-amber-800/70">
                   此乃仙家秘境，非有缘人不可入内
                 </p>
@@ -541,20 +568,21 @@ export default function Home() {
               
               <div className="scroll-content">
                 {/* 顶部引言 */}
-                <p className="ancient-text text-lg tracking-widest mb-6 text-amber-900 glow-text">
+                <p className="ancient-text text-lg tracking-wider mb-4 text-amber-900 glow-text">
                   {ancientQuote}
                 </p>
                 
                 {/* 主要文字 */}
-                <h1 className="ancient-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl mb-8 tracking-widest">
+                <h1 className="ancient-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl mb-6 tracking-widest">
                   {displayText.split('').map((letter, index) => (
                     <span
                       key={index}
-                      className="inline-block opacity-0 transform translate-y-10 rotate-y-90 scale-50 transition-all duration-800"
+                      className="inline-block opacity-0 transform translate-y-10 scale-50 transition-all duration-800"
                       style={{
                         animation: showText ? `fadeInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) ${index * 0.08}s forwards` : 'none',
-                        animationFillMode: 'forwards'
-                      }}
+                        animationFillMode: 'forwards',
+                        '--index': index,
+                      } as React.CSSProperties}
                       onMouseOver={(e) => {
                         e.currentTarget.style.color = `#DAA520`
                         e.currentTarget.style.transform = 'translateY(-15px) scale(1.4) rotate(5deg)'
@@ -575,7 +603,7 @@ export default function Home() {
                 
                 {/* 底部装饰 */}
                 <div className="ancient-text text-lg text-amber-900">
-                  <p className="tracking-widest animate-float">
+                  <p className="tracking-wider animate-float">
                     若有缘，君自知
                   </p>
                 </div>
