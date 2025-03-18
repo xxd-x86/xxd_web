@@ -518,14 +518,16 @@ export default function Home() {
             <div className="corner-br"></div>
             
             <div className="scroll-content">
-              <h2 className="ancient-title text-3xl mb-6">玉阙绛阙宫</h2>
+              <h2 className="ancient-title text-3xl mb-4">玉阙绛阙宫</h2>
               
-              <p className="ancient-text text-lg mb-4 tracking-wider text-center">
+              <div className="poetry-divider"></div>
+              
+              <p className="ancient-text text-lg mb-3 tracking-wider text-center">
                 须凭仙令，方可入内
               </p>
               
               {/* 添加随机诗词作为装饰 */}
-              <div className="poetry-decoration mb-5 text-center opacity-70">
+              <div className="poetry-decoration mb-5 text-center">
                 <p className="text-sm italic text-amber-800/80">
                   {poetryCollection[Math.floor(Math.random() * poetryCollection.length)].text}
                 </p>
@@ -573,7 +575,9 @@ export default function Home() {
                 )}
               </div>
               
-              <div className="mt-6 text-center">
+              <div className="poetry-divider mt-6"></div>
+              
+              <div className="mt-4 text-center">
                 <p className="text-xs text-amber-800/70">
                   此乃仙家秘境，非有缘人不可入内
                 </p>
@@ -596,7 +600,7 @@ export default function Home() {
             {poetryCollection.slice(0, 5).map((poetry, index) => (
               <div 
                 key={index}
-                className={`poetry-float poetry-float-${index} absolute opacity-20 text-amber-800 text-sm`}
+                className={`poetry-float poetry-float-${index} absolute opacity-20 text-amber-800 text-sm poetry-animate poetry-delay-${index+1}`}
                 style={{
                   top: `${10 + index * 18}%`,
                   left: `${5 + index * 19}%`,
@@ -619,6 +623,8 @@ export default function Home() {
               
               <div className="scroll-content">
                 {/* 顶部引言 - 可点击切换 */}
+                <div className="poetry-divider"></div>
+                
                 <div 
                   className="poetry-quote cursor-pointer" 
                   onClick={changePoetry}
@@ -627,48 +633,66 @@ export default function Home() {
                   <p className="ancient-text text-lg tracking-wider mb-1 text-amber-900 glow-text">
                     {ancientQuote}
                   </p>
-                  <p className="text-xs text-amber-800/60 mb-4 italic poetry-author">
+                  <p className="text-xs text-amber-800/60 mb-2 italic poetry-author">
                     {poetryCollection.find(p => p.text === ancientQuote)?.author || ''}
                   </p>
                 </div>
                 
+                <div className="poetry-divider"></div>
+                
                 {/* 主要文字 */}
-                <h1 className="ancient-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl mb-6 tracking-widest">
-                  {displayText.split('').map((letter, index) => (
-                    <span
-                      key={index}
-                      className="inline-block opacity-0 transform translate-y-10 scale-50 transition-all duration-800"
-                      style={{
-                        animation: showText ? `fadeInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) ${index * 0.08}s forwards` : 'none',
-                        animationFillMode: 'forwards',
-                        '--index': index,
-                      } as React.CSSProperties}
-                      onMouseOver={(e) => {
-                        e.currentTarget.style.color = `#DAA520`
-                        e.currentTarget.style.transform = 'translateY(-15px) scale(1.4) rotate(5deg)'
-                        e.currentTarget.style.textShadow = '0 0 20px #DAA520'
-                        e.currentTarget.style.zIndex = '10'
-                      }}
-                      onMouseOut={(e) => {
-                        e.currentTarget.style.color = ''
-                        e.currentTarget.style.transform = 'translateY(0) scale(1) rotate(0)'
-                        e.currentTarget.style.textShadow = ''
-                        e.currentTarget.style.zIndex = '1'
-                      }}
-                    >
-                      {letter}
-                    </span>
-                  ))}
-                </h1>
+                <div className="main-text-container">
+                  <h1 className="ancient-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl mb-4 tracking-widest">
+                    {displayText.split('').map((letter, index) => (
+                      <span
+                        key={index}
+                        className="inline-block opacity-0 transform translate-y-10 scale-50 transition-all duration-800 text-float"
+                        style={{
+                          animation: showText ? `fadeInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) ${index * 0.08}s forwards` : 'none',
+                          animationFillMode: 'forwards',
+                          '--index': index,
+                        } as React.CSSProperties}
+                        onMouseOver={(e) => {
+                          e.currentTarget.style.color = `#DAA520`
+                          e.currentTarget.style.transform = 'translateY(-15px) scale(1.4) rotate(5deg)'
+                          e.currentTarget.style.textShadow = '0 0 20px #DAA520'
+                          e.currentTarget.style.zIndex = '10'
+                        }}
+                        onMouseOut={(e) => {
+                          e.currentTarget.style.color = ''
+                          e.currentTarget.style.transform = 'translateY(0) scale(1) rotate(0)'
+                          e.currentTarget.style.textShadow = ''
+                          e.currentTarget.style.zIndex = '1'
+                        }}
+                      >
+                        {letter}
+                      </span>
+                    ))}
+                  </h1>
+                </div>
+                
+                <div className="poetry-divider"></div>
                 
                 {/* 底部装饰 */}
                 <div className="ancient-text text-lg text-amber-900">
                   <p className="tracking-wider animate-float">
-                    {decorativePhrase}
+                    <span className="text-float">{decorativePhrase}</span>
                   </p>
                   <p className="text-xs mt-3 opacity-70 tracking-wider italic">
                     "自在飞花轻似梦，无边丝雨细如愁"
                   </p>
+                </div>
+                
+                <div className="poetry-divider"></div>
+                
+                {/* 额外的诗词装饰 */}
+                <div className="mt-4 grid grid-cols-2 gap-4">
+                  {poetryCollection.slice(5, 7).map((poetry, index) => (
+                    <div key={index} className="text-xs text-amber-800/60 italic text-center poetry-animate" style={{animationDelay: `${0.3 * index}s`}}>
+                      {poetry.text.split('，')[0]}，<br />
+                      {poetry.text.split('，')[1]}
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>

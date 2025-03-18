@@ -762,13 +762,17 @@ h1 span:hover::after {
 /* 古风主题背景 */
 .ancient-bg {
   background: var(--bg-primary);
-  background-image: url('/images/ancient-bg.jpg'), radial-gradient(circle, #f9f0e6, #e8d5b9);
+  background-image: 
+    url('/images/ancient-bg.jpg'), 
+    radial-gradient(circle, #f9f0e6, #e8d5b9);
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
   overflow: hidden;
+  position: relative;
 }
 
+/* 背景叠加层 - 营造古风氛围 */
 .ancient-bg::before {
   content: "";
   position: absolute;
@@ -776,25 +780,14 @@ h1 span:hover::after {
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at center, rgba(218, 165, 32, 0.15) 0%, rgba(139, 69, 19, 0.1) 40%, rgba(0, 0, 0, 0) 70%);
+  background-image: url('/images/rice-paper.png');
+  background-size: 200px;
+  opacity: 0.04;
   pointer-events: none;
   z-index: 1;
 }
 
-.ancient-bg::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%238B4513' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 2;
-  opacity: 0.5;
-}
-
-/* 古风滚动卷轴 - 优化移动端体验 */
+/* 响应式卷轴容器 - 优化为适合诗词展示 */
 .ancient-scroll {
   max-width: 800px;
   width: 90%;
@@ -811,1313 +804,27 @@ h1 span:hover::after {
   z-index: 10;
 }
 
-.ancient-scroll::before,
-.ancient-scroll::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 15px;
-  background-repeat: repeat-x;
-  background-size: auto 100%;
-  z-index: 10;
-  opacity: 0.7;
-}
-
+/* 卷轴内容区 - 改进为诗词风格 */
 .scroll-content {
   position: relative;
-  padding: 1rem;
+  padding: 1.5rem;
   z-index: 1;
-  color: var(--text-primary);
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);
-  background: linear-gradient(to bottom, rgba(245, 222, 179, 0.1) 0%, rgba(245, 222, 179, 0.5) 50%, rgba(245, 222, 179, 0.1) 100%);
+  background: linear-gradient(to bottom, 
+    rgba(245, 222, 179, 0.05) 0%, 
+    rgba(245, 222, 179, 0.2) 50%, 
+    rgba(245, 222, 179, 0.05) 100%);
   border-radius: 4px;
-}
-
-/* 古风装饰边框 */
-.ancient-border {
-  border: 2px solid var(--border-color);
-  border-radius: 8px;
-  box-shadow: 
-    0 0 0 1px var(--border-color),
-    0 5px 15px rgba(0, 0, 0, 0.1),
-    inset 0 0 30px rgba(183, 132, 86, 0.1);
-  background-image: 
-    url('/images/paper-texture.png'),
-    linear-gradient(to bottom, #f8ecd5, #f0e0c9);
-  background-size: cover;
-  position: relative;
-}
-
-.corner-tl, .corner-tr, .corner-bl, .corner-br {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  z-index: 2;
-}
-
-@media (max-width: 480px) {
-  .corner-tl, .corner-tr, .corner-bl, .corner-br {
-    width: 20px;
-    height: 20px;
-  }
-}
-
-.corner-tl {
-  top: 5px;
-  left: 5px;
-  background-image: url('/images/corner-tl.png');
-}
-
-.corner-tr {
-  top: 5px;
-  right: 5px;
-  background-image: url('/images/corner-tr.png');
-}
-
-.corner-bl {
-  bottom: 5px;
-  left: 5px;
-  background-image: url('/images/corner-bl.png');
-}
-
-.corner-br {
-  bottom: 5px;
-  right: 5px;
-  background-image: url('/images/corner-br.png');
-}
-
-/* 古风输入框 */
-.ancient-input {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  background-color: rgba(255, 255, 255, 0.5);
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  color: var(--text-primary);
-  font-size: 1rem;
-  transition: all 0.3s;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.ancient-input:focus {
-  outline: none;
-  border-color: var(--highlight-color);
-  box-shadow: 0 0 0 2px rgba(218, 165, 32, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.ancient-input::placeholder {
-  color: var(--text-secondary);
-  opacity: 0.6;
-}
-
-/* 古风按钮 */
-.ancient-button {
-  padding: 0.6rem 1.2rem;
-  background: linear-gradient(to bottom, #daa520, #b8860b);
-  color: #fff;
-  border: 1px solid #b8860b;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-  box-shadow: 
-    0 2px 4px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
-}
-
-.ancient-button:hover {
-  background: linear-gradient(to bottom, #e3b538, #c99917);
-  transform: translateY(-2px);
-  box-shadow: 
-    0 4px 8px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
-}
-
-.ancient-button:active {
-  transform: translateY(1px);
-  box-shadow: 
-    0 1px 2px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
-}
-
-/* 标题和文本样式 */
-.ancient-title {
-  font-family: "Ma Shan Zheng", "STXingkai", "FZXingKai-S04S", serif;
-  color: var(--text-primary);
-  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  letter-spacing: 0.1em;
-  line-height: 1.4;
-  text-align: center;
-}
-
-.ancient-text {
-  font-family: "Noto Serif SC", "STSong", "FZShuSong-Z01S", serif;
-  color: var(--text-primary);
   line-height: 1.8;
-  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
 }
 
-/* 古风印章装饰 */
-.ancient-seal {
-  position: absolute;
-  width: 80px;
-  height: 80px;
-  background-image: url('/images/seal.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: 0.6;
-}
-
-@media (max-width: 480px) {
-  .ancient-seal {
-    width: 60px;
-    height: 60px;
-  }
-}
-
-.seal-1 {
-  bottom: 20px;
-  right: 20px;
-  transform: rotate(15deg);
-}
-
-/* 背景装饰元素容器 */
-.ancient-decoration {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
-  overflow: hidden;
-}
-
-/* 云纹装饰 */
-.chinese-cloud {
-  position: absolute;
-  background-image: url('/images/cloud.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: 0.4;
-  filter: hue-rotate(30deg) brightness(1.2);
-  animation: floatCloud 60s infinite linear;
-}
-
-.cloud-1 {
-  width: 240px;
-  height: 150px;
-  top: 10%;
-  left: -100px;
-  animation-duration: 160s;
-}
-
-.cloud-2 {
-  width: 180px;
-  height: 120px;
-  top: 25%;
-  right: -120px;
-  animation-duration: 200s;
-  animation-delay: -40s;
-}
-
-.cloud-3 {
-  width: 200px;
-  height: 140px;
-  bottom: 15%;
-  left: -150px;
-  animation-duration: 180s;
-  animation-delay: -70s;
-}
-
-.cloud-4 {
-  width: 160px;
-  height: 100px;
-  bottom: 30%;
-  right: -100px;
-  animation-duration: 190s;
-  animation-delay: -120s;
-}
-
-@keyframes floatCloud {
-  0% {
-    transform: translateX(0) translateY(0);
-  }
-  50% {
-    transform: translateX(calc(100vw + 300px)) translateY(20px);
-  }
-  100% {
-    transform: translateX(calc(100vw + 300px)) translateY(0);
-  }
-}
-
-/* 灯笼装饰 */
-.lantern {
-  position: absolute;
-  background-image: url('/images/lantern.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: 0.7;
-  animation: swingLantern 4s ease-in-out infinite;
-}
-
-@media (max-width: 768px) {
-  .lantern {
-    transform: scale(0.7);
-    opacity: 0.5;
-  }
-}
-
-.lantern-1 {
-  width: 60px;
-  height: 120px;
-  top: 5%;
-  left: 10%;
-  animation-delay: 0.5s;
-}
-
-.lantern-2 {
-  width: 50px;
-  height: 100px;
-  top: 8%;
-  right: 12%;
-  animation-delay: 0.8s;
-}
-
-.lantern-3 {
-  width: 40px;
-  height: 80px;
-  bottom: 10%;
-  left: 15%;
-  animation-delay: 1.2s;
-}
-
-.lantern-4 {
-  width: 45px;
-  height: 90px;
-  bottom: 12%;
-  right: 8%;
-  animation-delay: 1.5s;
-}
-
-@keyframes swingLantern {
-  0%, 100% {
-    transform: rotate(-3deg);
-  }
-  50% {
-    transform: rotate(3deg);
-  }
-}
-
-/* 丝带装饰 */
-.ribbon {
-  position: absolute;
-  background-image: url('/images/ribbon.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: 0.6;
-  animation: floatRibbon 8s ease-in-out infinite;
-}
-
-@media (max-width: 768px) {
-  .ribbon {
-    transform: scale(0.6);
-    opacity: 0.4;
-  }
-}
-
-.ribbon-1 {
-  width: 120px;
-  height: 80px;
-  top: 20%;
-  left: 5%;
-  transform: rotate(-15deg);
-  animation-delay: 0.2s;
-}
-
-.ribbon-2 {
-  width: 100px;
-  height: 70px;
-  top: 15%;
-  right: 8%;
-  transform: rotate(15deg) scaleX(-1);
-  animation-delay: 0.7s;
-}
-
-.ribbon-3 {
-  width: 90px;
-  height: 60px;
-  bottom: 25%;
-  left: 7%;
-  transform: rotate(10deg);
-  animation-delay: 1.1s;
-}
-
-.ribbon-4 {
-  width: 110px;
-  height: 75px;
-  bottom: 18%;
-  right: 6%;
-  transform: rotate(-10deg) scaleX(-1);
-  animation-delay: 1.6s;
-}
-
-@keyframes floatRibbon {
-  0%, 100% {
-    transform: translateY(0) rotate(var(--rotation, 0deg));
-  }
-  50% {
-    transform: translateY(-15px) rotate(var(--rotation, 0deg));
-  }
-}
-
-/* 水墨装饰 */
-.ink-splash {
-  position: absolute;
-  background-image: url('/images/ink-splash.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: 0.15;
-  filter: contrast(1.2);
-}
-
-@media (max-width: 768px) {
-  .ink-splash {
-    transform: scale(0.7);
-    opacity: 0.1;
-  }
-}
-
-.ink-1 {
-  width: 200px;
-  height: 200px;
-  top: 30%;
-  left: 5%;
-  transform: rotate(30deg);
-}
-
-.ink-2 {
-  width: 160px;
-  height: 160px;
-  top: 25%;
-  right: 8%;
-  transform: rotate(-20deg) scaleX(-1);
-}
-
-.ink-3 {
-  width: 180px;
-  height: 180px;
-  bottom: 35%;
-  left: 10%;
-  transform: rotate(-45deg);
-}
-
-.ink-4 {
-  width: 150px;
-  height: 150px;
-  bottom: 20%;
-  right: 12%;
-  transform: rotate(15deg) scaleX(-1);
-}
-
-/* 飞鸟装饰 */
-.flying-bird {
-  position: absolute;
-  background-image: url('/images/bird.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: 0.6;
-  animation: flyBird 30s linear infinite;
-}
-
-.bird-1 {
-  width: 40px;
-  height: 30px;
-  top: 40%;
-  left: -50px;
-  animation-duration: 25s;
-}
-
-.bird-2 {
-  width: 30px;
-  height: 25px;
-  top: 30%;
-  left: -40px;
-  animation-duration: 28s;
-  animation-delay: 5s;
-}
-
-.bird-3 {
-  width: 35px;
-  height: 28px;
-  top: 45%;
-  left: -45px;
-  animation-duration: 26s;
-  animation-delay: 10s;
-}
-
-@keyframes flyBird {
-  0% {
-    transform: translateX(0) translateY(0);
-  }
-  25% {
-    transform: translateX(calc(25vw + 75px)) translateY(-30px);
-  }
-  50% {
-    transform: translateX(calc(50vw + 150px)) translateY(10px);
-  }
-  75% {
-    transform: translateX(calc(75vw + 225px)) translateY(-20px);
-  }
-  100% {
-    transform: translateX(calc(100vw + 300px)) translateY(0);
-  }
-}
-
-/* 星星装饰 */
-.stars {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.star {
-  position: absolute;
-  background-color: #fff9e5;
-  border-radius: 50%;
-  z-index: 0;
-  box-shadow: 0 0 5px #fffacd, 0 0 8px #fffacd;
-}
-
-@keyframes twinkle {
-  0%, 100% {
-    opacity: 0.2;
-    transform: scale(0.8);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.2);
-  }
-}
-
-/* 文字动画 */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.animate-float {
-  animation: float 5s ease-in-out infinite;
-}
-
-.animate-fadeInUp {
-  animation: fadeInUp 0.8s ease-out forwards;
-}
-
-/* 晃动动画 - 密码错误 */
-@keyframes shake {
-  0%, 100% {
-    transform: translateX(0);
-  }
-  10%, 30%, 50%, 70%, 90% {
-    transform: translateX(-5px);
-  }
-  20%, 40%, 60%, 80% {
-    transform: translateX(5px);
-  }
-}
-
-.animate-shake {
-  animation: shake 0.6s ease-in-out;
-}
-
-/* 发光文字效果 */
-.glow-text {
-  text-shadow: 
-    0 0 5px rgba(218, 165, 32, 0.5),
-    0 0 10px rgba(218, 165, 32, 0.3);
-  animation: textGlow 3s infinite alternate;
-}
-
-@keyframes textGlow {
-  from {
-    text-shadow: 
-      0 0 5px rgba(218, 165, 32, 0.5),
-      0 0 10px rgba(218, 165, 32, 0.3);
-  }
-  to {
-    text-shadow: 
-      0 0 8px rgba(218, 165, 32, 0.7),
-      0 0 15px rgba(218, 165, 32, 0.5),
-      0 0 20px rgba(218, 165, 32, 0.3);
-  }
-}
-
-/* 媒体查询 - 更好的移动适配 */
-@media (max-width: 480px) {
-  .ancient-scroll {
-    padding: 1rem;
-    max-width: 95%;
-  }
-  
-  .ancient-button {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-  }
-  
-  .ancient-input {
-    padding: 0.6rem 0.8rem;
-    font-size: 0.9rem;
-  }
-  
-  .ancient-title {
-    font-size: 1.5rem !important;
-  }
-  
-  .ancient-text {
-    font-size: 0.9rem !important;
-    line-height: 1.5;
-  }
-  
-  .stars .star {
-    opacity: 0.5;
-  }
-  
-  .corner-tl, .corner-tr, .corner-bl, .corner-br {
-    width: 15px;
-    height: 15px;
-  }
-}
-
-/* 额外的响应式优化 */
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  overflow-x: hidden;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-/* 增强触摸设备上的可用性 */
-@media (hover: none) and (pointer: coarse) {
-  .ancient-button {
-    padding: 0.8rem 1.5rem; /* 更大的触摸区域 */
-  }
-  
-  .ancient-input {
-    font-size: 16px; /* 防止iOS上缩放 */
-  }
-  
-  .scroll-content {
-    padding: 0.8rem;
-  }
-}
-
-/* 古风主题 */
-:root {
-  --scroll-bg: #f8ecd5;
-  --text-primary: #612e04;
-  --text-secondary: #8a4a17;
-  --border-color: #b78456;
-  --highlight-color: #daa520;
-  --shadow-color: rgba(97, 46, 4, 0.2);
-  --bg-primary: #f9f0e6;
-}
-
-/* 主背景 */
-.ancient-bg {
-  background: var(--bg-primary);
-  background-image: url('/images/ancient-bg.jpg'), radial-gradient(circle, #f9f0e6, #e8d5b9);
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  overflow: hidden;
-}
-
-/* 响应式卷轴容器 */
-.ancient-scroll {
-  max-width: 800px;
-  width: 90%;
-  margin: 0 auto;
-  padding: 2rem;
-  position: relative;
-  background: var(--scroll-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 5px;
-  box-shadow: 0 10px 30px var(--shadow-color), 
-              inset 0 0 30px var(--shadow-color);
-  transition: all 0.3s ease-in-out;
-  overflow: hidden;
-  z-index: 10;
-}
-
-/* 移动设备卷轴优化 */
-@media (max-width: 768px) {
-  .ancient-scroll {
-    padding: 1.5rem;
-    width: 95%;
-    margin: 0 auto;
-  }
-  
-  .scroll-content {
-    padding: 0.5rem;
-  }
-  
-  .ancient-title {
-    font-size: 1.75rem !important;
-  }
-  
-  .ancient-text {
-    font-size: 0.95rem !important;
-  }
-}
-
-/* 更精致的卷轴边框 */
-.ancient-border {
-  border: 2px solid var(--border-color);
-  border-radius: 8px;
-  box-shadow: 
-    0 0 0 1px var(--border-color),
-    0 5px 15px rgba(0, 0, 0, 0.1),
-    inset 0 0 30px rgba(183, 132, 86, 0.1);
-  background-image: 
-    url('/images/paper-texture.png'),
-    linear-gradient(to bottom, #f8ecd5, #f0e0c9);
-  background-size: cover;
-  position: relative;
-}
-
-.scroll-content {
-  position: relative;
-  padding: 1rem;
-  z-index: 1;
-}
-
-/* 卷轴角装饰 */
-.corner-tl, .corner-tr, .corner-bl, .corner-br {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  z-index: 2;
-}
-
-@media (max-width: 480px) {
-  .corner-tl, .corner-tr, .corner-bl, .corner-br {
-    width: 20px;
-    height: 20px;
-  }
-}
-
-.corner-tl {
-  top: 5px;
-  left: 5px;
-  background-image: url('/images/corner-tl.png');
-}
-
-.corner-tr {
-  top: 5px;
-  right: 5px;
-  background-image: url('/images/corner-tr.png');
-}
-
-.corner-bl {
-  bottom: 5px;
-  left: 5px;
-  background-image: url('/images/corner-bl.png');
-}
-
-.corner-br {
-  bottom: 5px;
-  right: 5px;
-  background-image: url('/images/corner-br.png');
-}
-
-/* 古风输入框 */
-.ancient-input {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  background-color: rgba(255, 255, 255, 0.5);
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  color: var(--text-primary);
-  font-size: 1rem;
-  transition: all 0.3s;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.ancient-input:focus {
-  outline: none;
-  border-color: var(--highlight-color);
-  box-shadow: 0 0 0 2px rgba(218, 165, 32, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.ancient-input::placeholder {
-  color: var(--text-secondary);
-  opacity: 0.6;
-}
-
-/* 古风按钮 */
-.ancient-button {
-  padding: 0.6rem 1.2rem;
-  background: linear-gradient(to bottom, #daa520, #b8860b);
-  color: #fff;
-  border: 1px solid #b8860b;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-  box-shadow: 
-    0 2px 4px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
-}
-
-.ancient-button:hover {
-  background: linear-gradient(to bottom, #e3b538, #c99917);
-  transform: translateY(-2px);
-  box-shadow: 
-    0 4px 8px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
-}
-
-.ancient-button:active {
-  transform: translateY(1px);
-  box-shadow: 
-    0 1px 2px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
-}
-
-/* 标题和文本样式 */
-.ancient-title {
-  font-family: "Ma Shan Zheng", "STXingkai", "FZXingKai-S04S", serif;
-  color: var(--text-primary);
-  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  letter-spacing: 0.1em;
-  line-height: 1.4;
-  text-align: center;
-}
-
-.ancient-text {
-  font-family: "Noto Serif SC", "STSong", "FZShuSong-Z01S", serif;
-  color: var(--text-primary);
-  line-height: 1.8;
-  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
-}
-
-/* 古风印章装饰 */
-.ancient-seal {
-  position: absolute;
-  width: 80px;
-  height: 80px;
-  background-image: url('/images/seal.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: 0.6;
-}
-
-@media (max-width: 480px) {
-  .ancient-seal {
-    width: 60px;
-    height: 60px;
-  }
-}
-
-.seal-1 {
-  bottom: 20px;
-  right: 20px;
-  transform: rotate(15deg);
-}
-
-/* 背景装饰元素容器 */
-.ancient-decoration {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
-  overflow: hidden;
-}
-
-/* 云纹装饰 */
-.chinese-cloud {
-  position: absolute;
-  background-image: url('/images/cloud.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: 0.4;
-  filter: hue-rotate(30deg) brightness(1.2);
-  animation: floatCloud 60s infinite linear;
-}
-
-.cloud-1 {
-  width: 240px;
-  height: 150px;
-  top: 10%;
-  left: -100px;
-  animation-duration: 160s;
-}
-
-.cloud-2 {
-  width: 180px;
-  height: 120px;
-  top: 25%;
-  right: -120px;
-  animation-duration: 200s;
-  animation-delay: -40s;
-}
-
-.cloud-3 {
-  width: 200px;
-  height: 140px;
-  bottom: 15%;
-  left: -150px;
-  animation-duration: 180s;
-  animation-delay: -70s;
-}
-
-.cloud-4 {
-  width: 160px;
-  height: 100px;
-  bottom: 30%;
-  right: -100px;
-  animation-duration: 190s;
-  animation-delay: -120s;
-}
-
-@keyframes floatCloud {
-  0% {
-    transform: translateX(0) translateY(0);
-  }
-  50% {
-    transform: translateX(calc(100vw + 300px)) translateY(20px);
-  }
-  100% {
-    transform: translateX(calc(100vw + 300px)) translateY(0);
-  }
-}
-
-/* 灯笼装饰 */
-.lantern {
-  position: absolute;
-  background-image: url('/images/lantern.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: 0.7;
-  animation: swingLantern 4s ease-in-out infinite;
-}
-
-@media (max-width: 768px) {
-  .lantern {
-    transform: scale(0.7);
-    opacity: 0.5;
-  }
-}
-
-.lantern-1 {
-  width: 60px;
-  height: 120px;
-  top: 5%;
-  left: 10%;
-  animation-delay: 0.5s;
-}
-
-.lantern-2 {
-  width: 50px;
-  height: 100px;
-  top: 8%;
-  right: 12%;
-  animation-delay: 0.8s;
-}
-
-.lantern-3 {
-  width: 40px;
-  height: 80px;
-  bottom: 10%;
-  left: 15%;
-  animation-delay: 1.2s;
-}
-
-.lantern-4 {
-  width: 45px;
-  height: 90px;
-  bottom: 12%;
-  right: 8%;
-  animation-delay: 1.5s;
-}
-
-@keyframes swingLantern {
-  0%, 100% {
-    transform: rotate(-3deg);
-  }
-  50% {
-    transform: rotate(3deg);
-  }
-}
-
-/* 丝带装饰 */
-.ribbon {
-  position: absolute;
-  background-image: url('/images/ribbon.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: 0.6;
-  animation: floatRibbon 8s ease-in-out infinite;
-}
-
-@media (max-width: 768px) {
-  .ribbon {
-    transform: scale(0.6);
-    opacity: 0.4;
-  }
-}
-
-.ribbon-1 {
-  width: 120px;
-  height: 80px;
-  top: 20%;
-  left: 5%;
-  transform: rotate(-15deg);
-  animation-delay: 0.2s;
-}
-
-.ribbon-2 {
-  width: 100px;
-  height: 70px;
-  top: 15%;
-  right: 8%;
-  transform: rotate(15deg) scaleX(-1);
-  animation-delay: 0.7s;
-}
-
-.ribbon-3 {
-  width: 90px;
-  height: 60px;
-  bottom: 25%;
-  left: 7%;
-  transform: rotate(10deg);
-  animation-delay: 1.1s;
-}
-
-.ribbon-4 {
-  width: 110px;
-  height: 75px;
-  bottom: 18%;
-  right: 6%;
-  transform: rotate(-10deg) scaleX(-1);
-  animation-delay: 1.6s;
-}
-
-@keyframes floatRibbon {
-  0%, 100% {
-    transform: translateY(0) rotate(var(--rotation, 0deg));
-  }
-  50% {
-    transform: translateY(-15px) rotate(var(--rotation, 0deg));
-  }
-}
-
-/* 水墨装饰 */
-.ink-splash {
-  position: absolute;
-  background-image: url('/images/ink-splash.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: 0.15;
-  filter: contrast(1.2);
-}
-
-@media (max-width: 768px) {
-  .ink-splash {
-    transform: scale(0.7);
-    opacity: 0.1;
-  }
-}
-
-.ink-1 {
-  width: 200px;
-  height: 200px;
-  top: 30%;
-  left: 5%;
-  transform: rotate(30deg);
-}
-
-.ink-2 {
-  width: 160px;
-  height: 160px;
-  top: 25%;
-  right: 8%;
-  transform: rotate(-20deg) scaleX(-1);
-}
-
-.ink-3 {
-  width: 180px;
-  height: 180px;
-  bottom: 35%;
-  left: 10%;
-  transform: rotate(-45deg);
-}
-
-.ink-4 {
-  width: 150px;
-  height: 150px;
-  bottom: 20%;
-  right: 12%;
-  transform: rotate(15deg) scaleX(-1);
-}
-
-/* 飞鸟装饰 */
-.flying-bird {
-  position: absolute;
-  background-image: url('/images/bird.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: 0.6;
-  animation: flyBird 30s linear infinite;
-}
-
-.bird-1 {
-  width: 40px;
-  height: 30px;
-  top: 40%;
-  left: -50px;
-  animation-duration: 25s;
-}
-
-.bird-2 {
-  width: 30px;
-  height: 25px;
-  top: 30%;
-  left: -40px;
-  animation-duration: 28s;
-  animation-delay: 5s;
-}
-
-.bird-3 {
-  width: 35px;
-  height: 28px;
-  top: 45%;
-  left: -45px;
-  animation-duration: 26s;
-  animation-delay: 10s;
-}
-
-@keyframes flyBird {
-  0% {
-    transform: translateX(0) translateY(0);
-  }
-  25% {
-    transform: translateX(calc(25vw + 75px)) translateY(-30px);
-  }
-  50% {
-    transform: translateX(calc(50vw + 150px)) translateY(10px);
-  }
-  75% {
-    transform: translateX(calc(75vw + 225px)) translateY(-20px);
-  }
-  100% {
-    transform: translateX(calc(100vw + 300px)) translateY(0);
-  }
-}
-
-/* 星星装饰 */
-.stars {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.star {
-  position: absolute;
-  background-color: #fff9e5;
-  border-radius: 50%;
-  z-index: 0;
-  box-shadow: 0 0 5px #fffacd, 0 0 8px #fffacd;
-}
-
-@keyframes twinkle {
-  0%, 100% {
-    opacity: 0.2;
-    transform: scale(0.8);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.2);
-  }
-}
-
-/* 文字动画 */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.animate-float {
-  animation: float 5s ease-in-out infinite;
-}
-
-.animate-fadeInUp {
-  animation: fadeInUp 0.8s ease-out forwards;
-}
-
-/* 晃动动画 - 密码错误 */
-@keyframes shake {
-  0%, 100% {
-    transform: translateX(0);
-  }
-  10%, 30%, 50%, 70%, 90% {
-    transform: translateX(-5px);
-  }
-  20%, 40%, 60%, 80% {
-    transform: translateX(5px);
-  }
-}
-
-.animate-shake {
-  animation: shake 0.6s ease-in-out;
-}
-
-/* 发光文字效果 */
-.glow-text {
-  text-shadow: 
-    0 0 5px rgba(218, 165, 32, 0.5),
-    0 0 10px rgba(218, 165, 32, 0.3);
-  animation: textGlow 3s infinite alternate;
-}
-
-@keyframes textGlow {
-  from {
-    text-shadow: 
-      0 0 5px rgba(218, 165, 32, 0.5),
-      0 0 10px rgba(218, 165, 32, 0.3);
-  }
-  to {
-    text-shadow: 
-      0 0 8px rgba(218, 165, 32, 0.7),
-      0 0 15px rgba(218, 165, 32, 0.5),
-      0 0 20px rgba(218, 165, 32, 0.3);
-  }
-}
-
-/* 媒体查询 - 更好的移动适配 */
-@media (max-width: 480px) {
-  .ancient-scroll {
-    padding: 1rem;
-    max-width: 95%;
-  }
-  
-  .ancient-button {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-  }
-  
-  .ancient-input {
-    padding: 0.6rem 0.8rem;
-    font-size: 0.9rem;
-  }
-  
-  .ancient-title {
-    font-size: 1.5rem !important;
-  }
-  
-  .ancient-text {
-    font-size: 0.9rem !important;
-    line-height: 1.5;
-  }
-  
-  .stars .star {
-    opacity: 0.5;
-  }
-  
-  .corner-tl, .corner-tr, .corner-bl, .corner-br {
-    width: 15px;
-    height: 15px;
-  }
-}
-
-/* 额外的响应式优化 */
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  overflow-x: hidden;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-/* 增强触摸设备上的可用性 */
-@media (hover: none) and (pointer: coarse) {
-  .ancient-button {
-    padding: 0.8rem 1.5rem; /* 更大的触摸区域 */
-  }
-  
-  .ancient-input {
-    font-size: 16px; /* 防止iOS上缩放 */
-  }
-  
-  .scroll-content {
-    padding: 0.8rem;
-  }
-}
-
-/* 诗词装饰元素样式 */
+/* 改进诗词装饰样式 */
 .poetry-decoration {
   position: relative;
+  padding: 1rem 0;
+  margin: 1rem 0;
   font-family: "Noto Serif SC", "STSong", "FZShuSong-Z01S", serif;
+  border-top: 1px solid rgba(139, 69, 19, 0.1);
+  border-bottom: 1px solid rgba(139, 69, 19, 0.1);
 }
 
 .poetry-decoration::before,
@@ -2126,103 +833,182 @@ html, body {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  color: rgba(139, 69, 19, 0.6);
+  color: rgba(139, 69, 19, 0.4);
   font-size: 0.8rem;
 }
 
 .poetry-decoration::before {
-  left: 15%;
+  left: 10%;
 }
 
 .poetry-decoration::after {
-  right: 15%;
+  right: 10%;
 }
 
+/* 漂浮诗词样式优化 */
 .poetry-float {
   font-family: "Noto Serif SC", "STSong", "FZShuSong-Z01S", serif;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  max-width: 250px;
+  max-width: 300px;
   filter: blur(0.3px);
+  padding: 0.5rem 1rem;
+  background: var(--poetry-bg);
+  border-radius: 3px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-@media (max-width: 640px) {
-  .poetry-float {
-    max-width: 150px;
-    font-size: 0.75rem !important;
-  }
+/* 修改标题和文本样式 */
+.ancient-title {
+  font-family: "Ma Shan Zheng", "STXingkai", "FZXingKai-S04S", serif;
+  color: var(--text-primary);
+  text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.1em;
+  line-height: 1.5;
+  text-align: center;
+  position: relative;
+  padding-bottom: 1rem;
 }
 
+.ancient-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 25%;
+  right: 25%;
+  height: 1px;
+  background: linear-gradient(to right, 
+    transparent, 
+    rgba(139, 69, 19, 0.3), 
+    transparent);
+}
+
+.ancient-text {
+  font-family: "Noto Serif SC", "STSong", "FZShuSong-Z01S", serif;
+  color: var(--text-primary);
+  line-height: 1.8;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+/* 改进引言样式 */
 .poetry-quote {
   position: relative;
   transition: all 0.3s ease;
+  padding: 1rem;
+  background: var(--poetry-bg);
+  border-radius: 5px;
+  margin-bottom: 1.5rem;
+  border-left: 3px solid rgba(139, 69, 19, 0.2);
 }
 
 .poetry-quote:hover {
   transform: translateY(-3px);
+  background: rgba(245, 222, 179, 0.25);
+  border-left: 3px solid rgba(139, 69, 19, 0.4);
 }
 
 .poetry-quote:hover::after {
   content: "点击更换诗词";
   position: absolute;
-  bottom: -15px;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: -12px;
+  right: 10px;
   font-size: 0.7rem;
   color: rgba(139, 69, 19, 0.7);
   white-space: nowrap;
   opacity: 0.8;
+  background: var(--scroll-bg);
+  padding: 2px 8px;
+  border-radius: 3px;
 }
 
 .poetry-author {
   font-family: "Noto Serif SC", "STSong", "FZShuSong-Z01S", serif;
   transition: opacity 0.3s ease;
+  text-align: right;
+  font-style: italic;
+  padding-right: 1rem;
 }
 
-/* 墨迹装饰 */
-.ink-text {
+/* 云纹装饰 */
+.chinese-cloud {
+  position: absolute;
+  background-image: url('/images/cloud.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.35;
+  filter: hue-rotate(15deg) brightness(1.2);
+  animation: floatCloud 60s infinite linear;
+}
+
+/* 新增:诗词页面分割线 */
+.poetry-divider {
   position: relative;
+  height: 1px;
+  background: linear-gradient(to right, 
+    transparent 0%, 
+    rgba(139, 69, 19, 0.2) 20%, 
+    rgba(139, 69, 19, 0.3) 50%,
+    rgba(139, 69, 19, 0.2) 80%,
+    transparent 100%);
+  margin: 1.5rem 0;
+}
+
+.poetry-divider::before {
+  content: "❖";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--scroll-bg);
+  padding: 0 10px;
+  color: rgba(139, 69, 19, 0.5);
+  font-size: 0.8rem;
+}
+
+/* 优化按钮样式 */
+.ancient-button {
+  background: linear-gradient(to bottom, rgba(218, 165, 32, 0.9), rgba(139, 69, 19, 0.9));
+  color: #FFF8DC;
+  border: 1px solid rgba(139, 69, 19, 0.5);
+  padding: 0.7rem 1.5rem;
+  font-family: "FangSong", "楷体", "KaiTi", serif;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 新增:主文字容器 */
+.main-text-container {
+  position: relative;
+  padding: 1.5rem;
+  background: rgba(245, 222, 179, 0.1);
+  border-radius: 5px;
+  margin: 1rem 0;
   overflow: hidden;
 }
 
-.ink-text::after {
+.main-text-container::before {
   content: "";
   position: absolute;
-  bottom: -2px;
-  left: 10%;
-  width: 80%;
-  height: 1px;
-  background: linear-gradient(90deg, 
-    transparent 0%, 
-    rgba(139, 69, 19, 0.3) 20%, 
-    rgba(139, 69, 19, 0.5) 50%,
-    rgba(139, 69, 19, 0.3) 80%,
-    transparent 100%
-  );
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('/images/paper-texture.png');
+  background-size: 200px;
+  opacity: 0.1;
+  pointer-events: none;
 }
 
-/* 毛笔效果文字 */
-.brush-text {
-  font-family: "Ma Shan Zheng", "STXingkai", "FZXingKai-S04S", serif;
-  letter-spacing: 0.1em;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-  color: rgba(139, 69, 19, 0.9);
-}
-
-/* 随机飘逸的墨迹动画 */
-@keyframes inkFloat {
-  0%, 100% {
-    opacity: 0.15;
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    opacity: 0.25;
-    transform: translateY(-15px) rotate(3deg);
-  }
-}
-
-/* 诗词元素淡入效果 */
+/* 诗词动画效果 */
 @keyframes poetryFadeIn {
   from {
     opacity: 0;
@@ -2238,24 +1024,43 @@ html, body {
   animation: poetryFadeIn 1s ease-out forwards;
 }
 
-/* 中国风水墨效果 */
-.ink-splash-light {
-  position: absolute;
-  background-image: url('/images/ink-light.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: 0.07;
-  mix-blend-mode: multiply;
-  z-index: 0;
-  pointer-events: none;
+/* 文字飘动效果 */
+@keyframes textFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(1deg);
+  }
 }
 
-/* 更多诗词动画延迟 */
-.poetry-delay-1 { animation-delay: 0.3s; }
-.poetry-delay-2 { animation-delay: 0.6s; }
-.poetry-delay-3 { animation-delay: 0.9s; }
-.poetry-delay-4 { animation-delay: 1.2s; }
-.poetry-delay-5 { animation-delay: 1.5s; }
+.text-float {
+  animation: textFloat 5s ease-in-out infinite;
+  display: inline-block;
+}
+
+/* 移动设备适配 */
+@media (max-width: 640px) {
+  .poetry-float {
+    max-width: 180px;
+    font-size: 0.75rem !important;
+    padding: 0.3rem 0.6rem;
+  }
+  
+  .poetry-quote {
+    padding: 0.75rem;
+    margin-bottom: 1.2rem;
+  }
+  
+  .ancient-title::after {
+    left: 15%;
+    right: 15%;
+  }
+  
+  .poetry-divider::before {
+    font-size: 0.6rem;
+  }
+}
 
 /* 适配小屏幕 */
 @media (max-width: 480px) {
@@ -2266,6 +1071,349 @@ html, body {
   
   .poetry-quote:hover::after {
     font-size: 0.6rem;
-    bottom: -12px;
+    bottom: -10px;
+    right: 5px;
+    padding: 1px 5px;
+  }
+  
+  .poetry-author {
+    padding-right: 0.5rem;
+    font-size: 0.7rem;
+  }
+}
+
+/* 古风主题 */
+:root {
+  --scroll-bg: #f8ecd5;
+  --text-primary: #612e04;
+  --text-secondary: #8a4a17;
+  --border-color: #b78456;
+  --highlight-color: #daa520;
+  --shadow-color: rgba(97, 46, 4, 0.2);
+  --bg-primary: #f9f0e6;
+  --poetry-color: rgba(139, 69, 19, 0.8);
+  --poetry-bg: rgba(245, 222, 179, 0.15);
+}
+
+/* 主背景 - 更加适合诗词展示 */
+.ancient-bg {
+  background: var(--bg-primary);
+  background-image: 
+    url('/images/ancient-bg.jpg'), 
+    radial-gradient(circle, #f9f0e6, #e8d5b9);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  overflow: hidden;
+  position: relative;
+}
+
+/* 背景叠加层 - 营造古风氛围 */
+.ancient-bg::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('/images/rice-paper.png');
+  background-size: 200px;
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 响应式卷轴容器 - 优化为适合诗词展示 */
+.ancient-scroll {
+  max-width: 800px;
+  width: 90%;
+  margin: 0 auto;
+  padding: 2rem;
+  position: relative;
+  background: var(--scroll-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  box-shadow: 0 10px 30px var(--shadow-color), 
+              inset 0 0 30px var(--shadow-color);
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+  z-index: 10;
+}
+
+/* 卷轴内容区 - 改进为诗词风格 */
+.scroll-content {
+  position: relative;
+  padding: 1.5rem;
+  z-index: 1;
+  background: linear-gradient(to bottom, 
+    rgba(245, 222, 179, 0.05) 0%, 
+    rgba(245, 222, 179, 0.2) 50%, 
+    rgba(245, 222, 179, 0.05) 100%);
+  border-radius: 4px;
+  line-height: 1.8;
+}
+
+/* 改进诗词装饰样式 */
+.poetry-decoration {
+  position: relative;
+  padding: 1rem 0;
+  margin: 1rem 0;
+  font-family: "Noto Serif SC", "STSong", "FZShuSong-Z01S", serif;
+  border-top: 1px solid rgba(139, 69, 19, 0.1);
+  border-bottom: 1px solid rgba(139, 69, 19, 0.1);
+}
+
+.poetry-decoration::before,
+.poetry-decoration::after {
+  content: "※";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(139, 69, 19, 0.4);
+  font-size: 0.8rem;
+}
+
+.poetry-decoration::before {
+  left: 10%;
+}
+
+.poetry-decoration::after {
+  right: 10%;
+}
+
+/* 漂浮诗词样式优化 */
+.poetry-float {
+  font-family: "Noto Serif SC", "STSong", "FZShuSong-Z01S", serif;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 300px;
+  filter: blur(0.3px);
+  padding: 0.5rem 1rem;
+  background: var(--poetry-bg);
+  border-radius: 3px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* 修改标题和文本样式 */
+.ancient-title {
+  font-family: "Ma Shan Zheng", "STXingkai", "FZXingKai-S04S", serif;
+  color: var(--text-primary);
+  text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.1em;
+  line-height: 1.5;
+  text-align: center;
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+.ancient-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 25%;
+  right: 25%;
+  height: 1px;
+  background: linear-gradient(to right, 
+    transparent, 
+    rgba(139, 69, 19, 0.3), 
+    transparent);
+}
+
+.ancient-text {
+  font-family: "Noto Serif SC", "STSong", "FZShuSong-Z01S", serif;
+  color: var(--text-primary);
+  line-height: 1.8;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+/* 改进引言样式 */
+.poetry-quote {
+  position: relative;
+  transition: all 0.3s ease;
+  padding: 1rem;
+  background: var(--poetry-bg);
+  border-radius: 5px;
+  margin-bottom: 1.5rem;
+  border-left: 3px solid rgba(139, 69, 19, 0.2);
+}
+
+.poetry-quote:hover {
+  transform: translateY(-3px);
+  background: rgba(245, 222, 179, 0.25);
+  border-left: 3px solid rgba(139, 69, 19, 0.4);
+}
+
+.poetry-quote:hover::after {
+  content: "点击更换诗词";
+  position: absolute;
+  bottom: -12px;
+  right: 10px;
+  font-size: 0.7rem;
+  color: rgba(139, 69, 19, 0.7);
+  white-space: nowrap;
+  opacity: 0.8;
+  background: var(--scroll-bg);
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+
+.poetry-author {
+  font-family: "Noto Serif SC", "STSong", "FZShuSong-Z01S", serif;
+  transition: opacity 0.3s ease;
+  text-align: right;
+  font-style: italic;
+  padding-right: 1rem;
+}
+
+/* 云纹装饰 */
+.chinese-cloud {
+  position: absolute;
+  background-image: url('/images/cloud.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.35;
+  filter: hue-rotate(15deg) brightness(1.2);
+  animation: floatCloud 60s infinite linear;
+}
+
+/* 新增:诗词页面分割线 */
+.poetry-divider {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(to right, 
+    transparent 0%, 
+    rgba(139, 69, 19, 0.2) 20%, 
+    rgba(139, 69, 19, 0.3) 50%,
+    rgba(139, 69, 19, 0.2) 80%,
+    transparent 100%);
+  margin: 1.5rem 0;
+}
+
+.poetry-divider::before {
+  content: "❖";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--scroll-bg);
+  padding: 0 10px;
+  color: rgba(139, 69, 19, 0.5);
+  font-size: 0.8rem;
+}
+
+/* 优化按钮样式 */
+.ancient-button {
+  background: linear-gradient(to bottom, rgba(218, 165, 32, 0.9), rgba(139, 69, 19, 0.9));
+  color: #FFF8DC;
+  border: 1px solid rgba(139, 69, 19, 0.5);
+  padding: 0.7rem 1.5rem;
+  font-family: "FangSong", "楷体", "KaiTi", serif;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 新增:主文字容器 */
+.main-text-container {
+  position: relative;
+  padding: 1.5rem;
+  background: rgba(245, 222, 179, 0.1);
+  border-radius: 5px;
+  margin: 1rem 0;
+  overflow: hidden;
+}
+
+.main-text-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('/images/paper-texture.png');
+  background-size: 200px;
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+/* 诗词动画效果 */
+@keyframes poetryFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.poetry-animate {
+  animation: poetryFadeIn 1s ease-out forwards;
+}
+
+/* 文字飘动效果 */
+@keyframes textFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(1deg);
+  }
+}
+
+.text-float {
+  animation: textFloat 5s ease-in-out infinite;
+  display: inline-block;
+}
+
+/* 移动设备适配 */
+@media (max-width: 640px) {
+  .poetry-float {
+    max-width: 180px;
+    font-size: 0.75rem !important;
+    padding: 0.3rem 0.6rem;
+  }
+  
+  .poetry-quote {
+    padding: 0.75rem;
+    margin-bottom: 1.2rem;
+  }
+  
+  .ancient-title::after {
+    left: 15%;
+    right: 15%;
+  }
+  
+  .poetry-divider::before {
+    font-size: 0.6rem;
+  }
+}
+
+/* 适配小屏幕 */
+@media (max-width: 480px) {
+  .poetry-decoration::before,
+  .poetry-decoration::after {
+    display: none;
+  }
+  
+  .poetry-quote:hover::after {
+    font-size: 0.6rem;
+    bottom: -10px;
+    right: 5px;
+    padding: 1px 5px;
+  }
+  
+  .poetry-author {
+    padding-right: 0.5rem;
+    font-size: 0.7rem;
   }
 } 

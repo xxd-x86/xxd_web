@@ -10,8 +10,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "古风雅韵",
-  description: "锦瑟年华，胜芳华",
+  title: "xxd",
+  description: "锦瑟年华，如诗如画",
   viewport: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
   themeColor: "#f8ecd5"
 };
