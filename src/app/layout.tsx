@@ -34,7 +34,6 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap" />
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="theme-color" content="#2C1810" />
         <link 
           href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;500;600&display=swap" 
           rel="stylesheet"
