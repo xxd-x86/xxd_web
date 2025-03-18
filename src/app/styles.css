@@ -757,4 +757,631 @@ h1 span:hover::after {
 
 .animate-fadeInUp {
   animation: fadeInUp 0.3s ease-out forwards;
+}
+
+/* 古风主题背景 */
+.ancient-bg {
+  background-color: #1a0a00;
+  background-image: url("data:image/svg+xml,%3Csvg width='42' height='44' viewBox='0 0 42 44' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23daa520' fill-opacity='0.05' fill-rule='evenodd'%3E%3Cpath d='M5 16L19 30 5 44h32V30H21L5 16zm11-5V9h1v2h2v1h-2v2h-1v-2H9v-1h7z'/%3E%3C/g%3E%3C/svg%3E");
+  position: relative;
+}
+
+.ancient-bg::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(218, 165, 32, 0.15) 0%, rgba(139, 69, 19, 0.1) 40%, rgba(0, 0, 0, 0) 70%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.ancient-bg::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%238B4513' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.5;
+}
+
+/* 古风滚动卷轴 */
+.ancient-scroll {
+  position: relative;
+  background: linear-gradient(to right, rgba(218, 165, 32, 0.9), rgba(210, 180, 140, 0.9) 30%, rgba(245, 222, 179, 0.9) 50%, rgba(210, 180, 140, 0.9) 70%, rgba(218, 165, 32, 0.9));
+  border-radius: 8px;
+  padding: 4rem 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  max-width: 90%;
+  width: 40rem;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.ancient-scroll::before,
+.ancient-scroll::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 25px;
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  z-index: 10;
+}
+
+.ancient-scroll::before {
+  top: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='10' viewBox='0 0 20 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 C 5 0, 15 0, 20 10 Z' fill='%23804A00' /%3E%3C/svg%3E");
+}
+
+.ancient-scroll::after {
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='10' viewBox='0 0 20 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0 C 5 10, 15 10, 20 0 Z' fill='%23804A00' /%3E%3C/svg%3E");
+}
+
+.scroll-content {
+  position: relative;
+  z-index: 5;
+  color: #4B1D00;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+/* 古风装饰边框 */
+.ancient-border {
+  position: relative;
+}
+
+.ancient-border::before,
+.ancient-border::after,
+.ancient-border .corner-tl,
+.ancient-border .corner-tr,
+.ancient-border .corner-bl,
+.ancient-border .corner-br {
+  content: "";
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.ancient-border::before {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  width: auto;
+  background: linear-gradient(90deg, transparent 0%, #DAA520 50%, transparent 100%);
+  box-shadow: 0 0 15px #DAA520;
+}
+
+.ancient-border::after {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  width: auto;
+  background: linear-gradient(90deg, transparent 0%, #DAA520 50%, transparent 100%);
+  box-shadow: 0 0 15px #DAA520;
+}
+
+.ancient-border .corner-tl {
+  top: 0;
+  left: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M60 60 L 50 60 C 50 30, 30 10, 0 10 L 0 0 L 60 0 Z' fill='none' stroke='%23DAA520' stroke-width='2' /%3E%3C/svg%3E");
+}
+
+.ancient-border .corner-tr {
+  top: 0;
+  right: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 60 L 10 60 C 10 30, 30 10, 60 10 L 60 0 L 0 0 Z' fill='none' stroke='%23DAA520' stroke-width='2' /%3E%3C/svg%3E");
+}
+
+.ancient-border .corner-bl {
+  bottom: 0;
+  left: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M60 0 L 50 0 C 50 30, 30 50, 0 50 L 0 60 L 60 60 Z' fill='none' stroke='%23DAA520' stroke-width='2' /%3E%3C/svg%3E");
+}
+
+.ancient-border .corner-br {
+  bottom: 0;
+  right: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0 L 10 0 C 10 30, 30 50, 60 50 L 60 60 L 0 60 Z' fill='none' stroke='%23DAA520' stroke-width='2' /%3E%3C/svg%3E");
+}
+
+/* 古风文字样式 */
+.ancient-text {
+  font-family: "FangSong", "方正姚体", "楷体", "KaiTi", serif;
+  letter-spacing: 0.05em;
+  line-height: 1.8;
+  text-align: center;
+}
+
+.ancient-title {
+  font-family: "STZhongsong", "方正姚体", "华文中宋", serif;
+  letter-spacing: 0.2em;
+  font-weight: normal;
+  color: #8B4513;
+  text-shadow: 0 2px 4px rgba(139, 69, 19, 0.3);
+  position: relative;
+  display: inline-block;
+}
+
+.ancient-title::before,
+.ancient-title::after {
+  content: "※";
+  color: #DAA520;
+  position: relative;
+  top: -0.2em;
+  margin: 0 0.6em;
+  font-size: 0.7em;
+  text-shadow: 0 0 10px #DAA520;
+}
+
+/* 密码验证页面的卷轴风格 */
+.ancient-input {
+  background: rgba(245, 222, 179, 0.2);
+  border: 1px solid rgba(139, 69, 19, 0.3);
+  color: #F5DEB3;
+  padding: 0.8rem 1rem;
+  font-family: "FangSong", serif;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  width: 100%;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.ancient-input:focus {
+  outline: none;
+  border-color: #DAA520;
+  box-shadow: 0 0 10px rgba(218, 165, 32, 0.4), inset 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.ancient-button {
+  background: linear-gradient(to bottom, #DAA520, #8B4513);
+  color: #FFF8DC;
+  border: 1px solid #8B4513;
+  padding: 0.7rem 1.5rem;
+  font-family: "FangSong", serif;
+  letter-spacing: 0.1em;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.ancient-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: 0.5s;
+}
+
+.ancient-button:hover {
+  background: linear-gradient(to bottom, #B8860B, #704214);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.ancient-button:hover::before {
+  left: 100%;
+}
+
+.ancient-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* 装饰物 */
+.ancient-decoration {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.chinese-cloud {
+  position: absolute;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='60' viewBox='0 0 100 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 10 40 C 20 10, 40 10, 50 40 C 60 10, 80 10, 90 40 C 80 60, 60 60, 50 40 C 40 60, 20 60, 10 40 Z' fill='%23DAA520' fill-opacity='0.15'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 200px;
+  height: 120px;
+  opacity: 0.5;
+}
+
+.cloud-1 {
+  top: 5%;
+  left: 10%;
+  animation: float-cloud 15s ease-in-out infinite;
+}
+
+.cloud-2 {
+  top: 15%;
+  right: 10%;
+  transform: scale(0.8);
+  animation: float-cloud 18s ease-in-out 2s infinite;
+}
+
+.cloud-3 {
+  bottom: 20%;
+  left: 15%;
+  transform: scale(0.7);
+  animation: float-cloud 20s ease-in-out 1s infinite;
+}
+
+.cloud-4 {
+  bottom: 10%;
+  right: 15%;
+  transform: scale(0.9);
+  animation: float-cloud 17s ease-in-out 3s infinite;
+}
+
+@keyframes float-cloud {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+  }
+  25% {
+    transform: translateY(-15px) translateX(15px);
+  }
+  50% {
+    transform: translateY(0) translateX(30px);
+  }
+  75% {
+    transform: translateY(15px) translateX(15px);
+  }
+}
+
+.lantern {
+  position: absolute;
+  width: 40px;
+  height: 60px;
+  background: radial-gradient(ellipse at center, rgba(218, 165, 32, 0.5) 0%, rgba(178, 34, 34, 0.3) 70%, transparent 100%);
+  border-radius: 50% / 60% 60% 40% 40%;
+  box-shadow: 0 0 20px rgba(218, 165, 32, 0.6);
+  z-index: 5;
+}
+
+.lantern::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 5px;
+  background: #8B4513;
+  border-radius: 5px 5px 0 0;
+}
+
+.lantern::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 12px;
+  background: #DAA520;
+  border-radius: 2px;
+  box-shadow: 0 0 5px rgba(218, 165, 32, 0.6);
+}
+
+.lantern-1 {
+  top: 10%;
+  left: 5%;
+  animation: lantern-glow 4s ease-in-out infinite;
+}
+
+.lantern-2 {
+  top: 8%;
+  right: 5%;
+  animation: lantern-glow 4s ease-in-out 2s infinite;
+}
+
+.lantern-3 {
+  bottom: 15%;
+  left: 3%;
+  animation: lantern-glow 4s ease-in-out 1s infinite;
+}
+
+.lantern-4 {
+  bottom: 12%;
+  right: 3%;
+  animation: lantern-glow 4s ease-in-out 3s infinite;
+}
+
+@keyframes lantern-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(218, 165, 32, 0.6);
+    background: radial-gradient(ellipse at center, rgba(218, 165, 32, 0.5) 0%, rgba(178, 34, 34, 0.3) 70%, transparent 100%);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(218, 165, 32, 0.8);
+    background: radial-gradient(ellipse at center, rgba(218, 165, 32, 0.7) 0%, rgba(178, 34, 34, 0.5) 70%, transparent 100%);
+  }
+}
+
+/* 古风飘带元素 */
+.ribbon {
+  position: absolute;
+  height: 3px;
+  background-color: #DAA520;
+  z-index: 4;
+  opacity: 0.5;
+  transform-origin: left center;
+  box-shadow: 0 0 10px rgba(218, 165, 32, 0.6);
+}
+
+.ribbon-1 {
+  top: 20%;
+  left: 10%;
+  width: 200px;
+  animation: ribbon-float 15s ease-in-out infinite;
+}
+
+.ribbon-2 {
+  top: 40%;
+  right: 10%;
+  width: 180px;
+  transform-origin: right center;
+  animation: ribbon-float 12s ease-in-out 2s infinite reverse;
+}
+
+.ribbon-3 {
+  bottom: 30%;
+  left: 20%;
+  width: 150px;
+  animation: ribbon-float 10s ease-in-out 1s infinite;
+}
+
+.ribbon-4 {
+  bottom: 25%;
+  right: 15%;
+  width: 170px;
+  transform-origin: right center;
+  animation: ribbon-float 13s ease-in-out 3s infinite reverse;
+}
+
+@keyframes ribbon-float {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(25deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-25deg);
+  }
+}
+
+/* 文字动画效果 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px) rotateY(90deg) scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotateY(0) scale(1);
+  }
+}
+
+/* 古风墨迹效果 */
+.ink-splash {
+  position: absolute;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 0 C60 30, 90 40, 100 50 C90 60, 60 70, 50 100 C40 70, 10 60, 0 50 C10 40, 40 30, 50 0' fill='%23000000' fill-opacity='0.05'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 100px;
+  height: 100px;
+  z-index: 3;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.ink-1 {
+  top: 5%;
+  left: 20%;
+  transform: rotate(30deg) scale(2);
+}
+
+.ink-2 {
+  top: 10%;
+  right: 25%;
+  transform: rotate(-20deg) scale(1.5);
+}
+
+.ink-3 {
+  bottom: 8%;
+  left: 18%;
+  transform: rotate(-10deg) scale(1.8);
+}
+
+.ink-4 {
+  bottom: 12%;
+  right: 22%;
+  transform: rotate(15deg) scale(1.7);
+}
+
+/* 星星点点效果 */
+.stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background-color: #DAA520;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #DAA520;
+  opacity: 0;
+  animation: twinkle 4s infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* 文字特效 */
+.glow-text {
+  text-shadow: 0 0 5px #DAA520, 0 0 10px #DAA520, 0 0 20px #DAA520;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  0% {
+    text-shadow: 0 0 5px #DAA520, 0 0 10px #DAA520;
+  }
+  100% {
+    text-shadow: 0 0 10px #DAA520, 0 0 20px #DAA520, 0 0 30px #DAA520;
+  }
+}
+
+.ink-paint {
+  color: #000;
+  font-weight: bold;
+  text-shadow: 1px 1px 0 #DAA520, -1px -1px 0 #DAA520;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100' height='100' fill='%23F5DEB3' fill-opacity='0.9'/%3E%3C/svg%3E");
+  -webkit-background-clip: text;
+  background-clip: text;
+  position: relative;
+}
+
+.bg-parchment {
+  background-color: rgba(245, 222, 179, 0.9);
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100' height='100' fill='%23F5DEB3' fill-opacity='0.3'/%3E%3C/svg%3E");
+}
+
+/* 密码输入框动画 */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.animate-shake {
+  animation: shake 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+/* 动画综合 */
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.3s ease-out forwards;
+}
+
+/* 飞鸟装饰 */
+.flying-bird {
+  position: absolute;
+  width: 30px;
+  height: 15px;
+  background-image: url("data:image/svg+xml,%3Csvg width='30' height='15' viewBox='0 0 30 15' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M15 0 C20 5, 25 7, 30 7 C25 9, 20 10, 15 15 C10 10, 5 9, 0 7 C5 7, 10 5, 15 0' fill='%23000000' fill-opacity='0.4'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 6;
+}
+
+.bird-1 {
+  top: 15%;
+  left: -30px;
+  animation: bird-fly-right 20s linear infinite;
+}
+
+.bird-2 {
+  top: 25%;
+  right: -30px;
+  transform: scaleX(-1);
+  animation: bird-fly-left 25s linear 5s infinite;
+}
+
+.bird-3 {
+  bottom: 30%;
+  left: -30px;
+  animation: bird-fly-right 22s linear 8s infinite;
+}
+
+@keyframes bird-fly-right {
+  0% {
+    left: -30px;
+  }
+  100% {
+    left: calc(100% + 30px);
+  }
+}
+
+@keyframes bird-fly-left {
+  0% {
+    right: -30px;
+  }
+  100% {
+    right: calc(100% + 30px);
+  }
+}
+
+/* 古风印章 */
+.ancient-seal {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='60' height='60' fill='%23B22222' fill-opacity='0.2'/%3E%3Cpath d='M10 10 H50 V50 H10 Z' fill='none' stroke='%23B22222' stroke-width='2' stroke-opacity='0.5'/%3E%3Cpath d='M15 30 H45 M30 15 V45' stroke='%23B22222' stroke-width='2' stroke-opacity='0.5'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 7;
+  opacity: 0.7;
+  transform: rotate(15deg);
+}
+
+.seal-1 {
+  bottom: 40px;
+  right: 40px;
 } 

@@ -19,7 +19,6 @@ type Confetti = {
 export default function Home() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const confettiCanvasRef = useRef<HTMLCanvasElement>(null)
-  const textRef = useRef<HTMLDivElement>(null)
   const [animationComplete, setAnimationComplete] = useState(false)
   const [initialLoad, setInitialLoad] = useState(true)
   const [showText, setShowText] = useState(false) // 新增状态管理文字显示
@@ -30,13 +29,9 @@ export default function Home() {
   const [passwordError, setPasswordError] = useState(false)
   const [showPasswordHint, setShowPasswordHint] = useState(false)
   
-  // 文字编辑相关状态
-  const [showEditModal, setShowEditModal] = useState(false)
-  const [editPassword, setEditPassword] = useState('')
-  const [editPasswordError, setEditPasswordError] = useState(false)
-  const [showEditForm, setShowEditForm] = useState(false)
-  const [displayText, setDisplayText] = useState("杨涵锦就tm是个雷军")
-  const [newText, setNewText] = useState("")
+  // 中文古风引言
+  const ancientQuote = "云想衣裳花想容，春风拂槛露华浓";
+  const displayText = "杨涵锦就tm是个雷军";
 
   // 验证密码函数
   const verifyPassword = () => {
@@ -71,84 +66,6 @@ export default function Home() {
   const togglePasswordHint = () => {
     setShowPasswordHint(!showPasswordHint)
   }
-  
-  // 打开编辑模态框
-  const openEditModal = () => {
-    setShowEditModal(true)
-    setEditPassword('')
-    setEditPasswordError(false)
-    setShowEditForm(false)
-  }
-  
-  // 关闭编辑模态框
-  const closeEditModal = () => {
-    setShowEditModal(false)
-    setEditPassword('')
-    setEditPasswordError(false)
-    setShowEditForm(false)
-  }
-  
-  // 验证编辑密码
-  const verifyEditPassword = () => {
-    if (editPassword === '9316893098') {
-      setEditPasswordError(false)
-      setShowEditForm(true)
-      setNewText(displayText)
-    } else {
-      setEditPasswordError(true)
-      setEditPassword('')
-    }
-  }
-  
-  // 处理编辑密码输入
-  const handleEditPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEditPassword(e.target.value)
-    setEditPasswordError(false)
-  }
-  
-  // 处理编辑密码框回车键按下
-  const handleEditPasswordKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      verifyEditPassword()
-    }
-  }
-  
-  // 处理新文本输入
-  const handleNewTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewText(e.target.value)
-  }
-  
-  // 保存新文本
-  const saveNewText = () => {
-    if (newText.trim()) {
-      // 先设置新文本
-      setDisplayText(newText)
-      
-      // 关闭编辑模态框
-      closeEditModal()
-      
-      // 完全重置动画状态
-      setAnimationComplete(false)
-      setShowText(false)
-      setInitialLoad(true)
-      
-      // 清空文本区域
-      if (textRef.current) {
-        textRef.current.innerHTML = ''
-      }
-      
-      // 使用多级延迟确保状态更新和DOM渲染
-      setTimeout(() => {
-        console.log('准备显示文字')
-        setInitialLoad(false)
-        
-        setTimeout(() => {
-          console.log('设置显示文字状态为true')
-          setShowText(true)
-        }, 200)
-      }, 100)
-    }
-  }
 
   // 背景动画效果
   useEffect(() => {
@@ -173,7 +90,7 @@ export default function Home() {
     window.addEventListener('resize', setCanvasSize)
 
     // 粒子数量 - 增加粒子数量使背景更丰富
-    const particlesCount = Math.floor(width * height / 4000) // 增加粒子密度
+    const particlesCount = Math.floor(width * height / 5000) // 减少一些粒子，让古风效果更明显
     
     // 粒子数组
     const particles: {
@@ -188,19 +105,29 @@ export default function Home() {
       size: number // 新增粒子大小变化属性
     }[] = []
 
-    // 创建粒子
+    // 创建粒子 - 使用古风配色
+    const ancientColors = [
+      'hsl(43, 74%, 49%)',   // 金色
+      'hsl(33, 82%, 30%)',   // 棕色
+      'hsl(24, 54%, 66%)',   // 烟褐色
+      'hsl(19, 56%, 40%)',   // 赭石色
+      'hsl(15, 60%, 27%)',   // 深棕
+      'hsl(36, 100%, 94%)'   // 米色
+    ]
+
     for (let i = 0; i < particlesCount; i++) {
       const radius = Math.random() * 3 + 1
+      const colorIndex = Math.floor(Math.random() * ancientColors.length)
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
         radius,
-        color: `hsl(${Math.random() * 360}, 100%, 70%)`, // 使用全彩色谱
-        speedX: Math.random() * 1 - 0.5,
-        speedY: Math.random() * 1 - 0.5,
-        opacity: Math.random() * 0.5 + 0.3,
+        color: ancientColors[colorIndex],
+        speedX: Math.random() * 0.6 - 0.3, // 速度更慢，更加优雅
+        speedY: Math.random() * 0.6 - 0.3,
+        opacity: Math.random() * 0.5 + 0.2,
         pulse: Math.random() > 0.5,
-        size: Math.random() // 随机初始大小因子
+        size: Math.random() 
       })
     }
 
@@ -208,11 +135,11 @@ export default function Home() {
     const animate = () => {
       ctx.clearRect(0, 0, width, height)
       
-      // 渐变背景
+      // 古风背景渐变
       const gradient = ctx.createRadialGradient(width/2, height/2, 0, width/2, height/2, Math.max(width, height))
-      gradient.addColorStop(0, '#1a2f6f')  // 更鲜艳的蓝色
-      gradient.addColorStop(0.5, '#121a3a')  // 中间色
-      gradient.addColorStop(1, '#060c1a')  // 接近黑色
+      gradient.addColorStop(0, '#2C1810')  // 深棕色
+      gradient.addColorStop(0.5, '#1a0c04')  // 更深的棕色
+      gradient.addColorStop(1, '#0a0502')  // 接近黑色
       ctx.fillStyle = gradient
       ctx.fillRect(0, 0, width, height)
       
@@ -220,8 +147,8 @@ export default function Home() {
       for (const particle of particles) {
         // 脉动效果 - 更平滑的呼吸效果
         if (particle.pulse) {
-          particle.size = 0.8 + Math.sin(Date.now() * 0.001 + Math.random() * 10) * 0.2
-          particle.opacity = 0.3 + Math.sin(Date.now() * 0.002 + Math.random() * 10) * 0.2
+          particle.size = 0.8 + Math.sin(Date.now() * 0.0008 + Math.random() * 10) * 0.2
+          particle.opacity = 0.2 + Math.sin(Date.now() * 0.001 + Math.random() * 10) * 0.15
         }
         
         particle.x += particle.speedX
@@ -245,44 +172,26 @@ export default function Home() {
                                      .replace('hsl', 'hsla')
         ctx.fill()
         
-        // 粒子发光效果 - 更强的光晕
-        ctx.beginPath()
-        ctx.arc(particle.x, particle.y, actualRadius * 2, 0, Math.PI * 2)
-        ctx.fillStyle = particle.color.replace(')', ', 0.15)')
-                                     .replace('hsl', 'hsla')
-        ctx.fill()
-        
-        // 额外的光晕层
+        // 粒子发光效果 - 古风光晕
         ctx.beginPath()
         ctx.arc(particle.x, particle.y, actualRadius * 3, 0, Math.PI * 2)
-        ctx.fillStyle = particle.color.replace(')', ', 0.05)')
+        ctx.fillStyle = particle.color.replace(')', ', 0.1)')
                                      .replace('hsl', 'hsla')
         ctx.fill()
       }
 
-      // 绘制连接线 - 彩虹连接线
+      // 绘制连接线 - 丝绸飘带效果
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x
           const dy = particles[i].y - particles[j].y
           const distance = Math.sqrt(dx * dx + dy * dy)
 
-          if (distance < 150) { // 增加连接距离
+          if (distance < 120) { // 减少连接距离，更加精致
             ctx.beginPath()
-            const gradient = ctx.createLinearGradient(
-              particles[i].x, 
-              particles[i].y, 
-              particles[j].x, 
-              particles[j].y
-            )
-            const color1 = particles[i].color.replace(')', `, ${0.2 * (1 - distance / 150)})`)
-                                          .replace('hsl', 'hsla')
-            const color2 = particles[j].color.replace(')', `, ${0.2 * (1 - distance / 150)})`)
-                                          .replace('hsl', 'hsla')
-            gradient.addColorStop(0, color1)
-            gradient.addColorStop(1, color2)
-            ctx.strokeStyle = gradient
-            ctx.lineWidth = 0.8 // 更粗的线
+            const opacity = 0.15 * (1 - distance / 120) // 降低不透明度
+            ctx.strokeStyle = `rgba(218, 165, 32, ${opacity})`
+            ctx.lineWidth = 0.6 // 更细的线
             ctx.moveTo(particles[i].x, particles[i].y)
             ctx.lineTo(particles[j].x, particles[j].y)
             ctx.stroke()
@@ -337,39 +246,88 @@ export default function Home() {
     setCanvasSize()
     window.addEventListener('resize', setCanvasSize)
 
-    // 创建撒花粒子
+    // 创建撒花粒子 - 使用古风配色
     const confetti: Confetti[] = []
-    const confettiCount = 400 // 更多粒子数量
+    const confettiCount = 300 // 稍微减少粒子数量
     const colors = [
-      '#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', 
-      '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4CAF50', 
-      '#8BC34A', '#FFEB3B', '#FFC107', '#FF9800', '#FF5722',
-      '#FF10F0', '#7DF9FF', '#ADFF2F', '#FD3A4A', '#C3B091',
-      '#FF9EE5', '#AAF0D1', '#7BCCB5', '#FFC8DD', '#FFAFCC'
+      '#DAA520', '#CD853F', '#D2B48C', '#BC8F8F', '#F5DEB3', 
+      '#DEB887', '#D2691E', '#8B4513', '#A0522D', '#CD5C5C',
+      '#B22222', '#8B0000', '#800000', '#8E4585', '#C19A6B'
     ]
     
-    // 粒子的形状数量增加
-    const shapeCount = 5
+    // 中国传统元素形状
+    const shapes = [
+      // 圆形
+      (ctx: CanvasRenderingContext2D, size: number) => {
+        ctx.beginPath()
+        ctx.arc(0, 0, size, 0, Math.PI * 2)
+        ctx.fill()
+      },
+      // 方形 - 代表印章
+      (ctx: CanvasRenderingContext2D, size: number) => {
+        ctx.fillRect(-size, -size, size * 2, size * 2)
+      },
+      // 六边形 - 代表花瓣
+      (ctx: CanvasRenderingContext2D, size: number) => {
+        ctx.beginPath()
+        for (let i = 0; i < 6; i++) {
+          const angle = (i * Math.PI) / 3
+          ctx.lineTo(
+            Math.cos(angle) * size,
+            Math.sin(angle) * size
+          )
+        }
+        ctx.closePath()
+        ctx.fill()
+      },
+      // 梅花形状
+      (ctx: CanvasRenderingContext2D, size: number) => {
+        ctx.beginPath()
+        for (let i = 0; i < 5; i++) {
+          const outerAngle = (i * 2 * Math.PI) / 5
+          ctx.lineTo(
+            Math.cos(outerAngle) * size,
+            Math.sin(outerAngle) * size
+          )
+          
+          const innerAngle = outerAngle + Math.PI / 5
+          ctx.lineTo(
+            Math.cos(innerAngle) * (size / 2),
+            Math.sin(innerAngle) * (size / 2)
+          )
+        }
+        ctx.closePath()
+        ctx.fill()
+      },
+      // 扇形
+      (ctx: CanvasRenderingContext2D, size: number) => {
+        ctx.beginPath()
+        ctx.moveTo(0, 0)
+        ctx.arc(0, 0, size, -Math.PI / 4, Math.PI / 4)
+        ctx.closePath()
+        ctx.fill()
+      }
+    ]
 
     for (let i = 0; i < confettiCount; i++) {
       const randomColor = colors[Math.floor(Math.random() * colors.length)]
       confetti.push({
         x: width / 2,
         y: height / 2,
-        radius: Math.random() * 10 + 3, // 更大的粒子
+        radius: Math.random() * 8 + 2, // 更大的粒子
         color: randomColor,
         velocity: {
-          x: (Math.random() - 0.5) * 20, // 速度更快
-          y: (Math.random() - 0.5) * 20
+          x: (Math.random() - 0.5) * 15, // 速度更快
+          y: (Math.random() - 0.5) * 15
         },
         rotation: Math.random() * 360,
-        rotationSpeed: (Math.random() - 0.5) * 10 // 旋转更快
+        rotationSpeed: (Math.random() - 0.5) * 8 // 旋转更快
       })
     }
 
     // 撒花动画
-    const gravity = 0.15 // 更轻的重力
-    const friction = 0.99 // 更少的摩擦
+    const gravity = 0.12 // 更轻的重力
+    const friction = 0.985 // 更少的摩擦
     let confettiActive = true
     let frames = 0
 
@@ -393,69 +351,19 @@ export default function Home() {
           ctx.rotate(particle.rotation * Math.PI / 180)
           
           // 根据帧数随机改变形状
-          const shape = (Math.floor(frames / 30) + Math.floor(Math.random() * shapeCount)) % shapeCount
+          const shape = shapes[Math.floor(Math.random() * shapes.length)]
           
           ctx.fillStyle = particle.color
           ctx.shadowColor = particle.color
-          ctx.shadowBlur = 15 // 更强的发光效果
+          ctx.shadowBlur = 5 // 轻微发光效果
           
-          if (shape === 0) {
-            // 圆形
-            ctx.beginPath()
-            ctx.arc(0, 0, particle.radius, 0, Math.PI * 2)
-            ctx.fill()
-          } else if (shape === 1) {
-            // A矩形
-            ctx.fillRect(-particle.radius, -particle.radius / 2, particle.radius * 2, particle.radius)
-          } else if (shape === 2) {
-            // 心形
-            ctx.beginPath()
-            const size = particle.radius
-            ctx.moveTo(0, -size/2)
-            ctx.bezierCurveTo(size/2, -size, size, -size/2, 0, size/2)
-            ctx.bezierCurveTo(-size, -size/2, -size/2, -size, 0, -size/2)
-            ctx.fill()
-          } else if (shape === 3) {
-            // 星形
-            ctx.beginPath()
-            const spikes = 5
-            const outerRadius = particle.radius
-            const innerRadius = particle.radius / 2
-            
-            for (let i = 0; i < spikes * 2; i++) {
-              const radius = i % 2 === 0 ? outerRadius : innerRadius
-              const angle = (i * Math.PI) / spikes
-              
-              ctx.lineTo(
-                Math.cos(angle) * radius,
-                Math.sin(angle) * radius
-              )
-            }
-            
-            ctx.closePath()
-            ctx.fill()
-          } else {
-            // 六边形
-            ctx.beginPath()
-            const sides = 6
-            const angle = (2 * Math.PI) / sides
-            
-            for (let i = 0; i < sides; i++) {
-              ctx.lineTo(
-                Math.cos(i * angle) * particle.radius,
-                Math.sin(i * angle) * particle.radius
-              )
-            }
-            
-            ctx.closePath()
-            ctx.fill()
-          }
+          shape(ctx, particle.radius)
           
           ctx.restore()
         }
       }
 
-      // 粒子循环 - 当粒子飞出屏幕时重用它们，制造持续效果
+      // 粒子循环
       confetti.forEach(particle => {
         if (particle.y > height + 100 || particle.y < -100 || 
             particle.x > width + 100 || particle.x < -100) {
@@ -463,8 +371,8 @@ export default function Home() {
           if (Math.random() > 0.97) { // 一部分粒子将重新投放
             particle.x = width / 2
             particle.y = height / 2
-            particle.velocity.x = (Math.random() - 0.5) * 20
-            particle.velocity.y = (Math.random() - 0.5) * 20
+            particle.velocity.x = (Math.random() - 0.5) * 15
+            particle.velocity.y = (Math.random() - 0.5) * 15
           }
         }
       })
@@ -480,66 +388,142 @@ export default function Home() {
       window.removeEventListener('resize', setCanvasSize)
     }
   }, [animationComplete])
+  
+  // 生成随机的星星
+  const generateStars = (count: number) => {
+    const stars = []
+    for (let i = 0; i < count; i++) {
+      const top = Math.random() * 100
+      const left = Math.random() * 100
+      const delay = Math.random() * 4
+      stars.push(
+        <div
+          key={i}
+          className="star"
+          style={{
+            top: `${top}%`,
+            left: `${left}%`,
+            animation: `twinkle 4s ${delay}s infinite`
+          }}
+        />
+      )
+    }
+    return stars
+  }
 
   return (
-    <div className="fixed inset-0 overflow-hidden flex items-center justify-center">
+    <div className="fixed inset-0 overflow-hidden flex items-center justify-center ancient-bg">
+      {/* 背景装饰元素 */}
+      <div className="ancient-decoration">
+        <div className="chinese-cloud cloud-1"></div>
+        <div className="chinese-cloud cloud-2"></div>
+        <div className="chinese-cloud cloud-3"></div>
+        <div className="chinese-cloud cloud-4"></div>
+        
+        <div className="lantern lantern-1"></div>
+        <div className="lantern lantern-2"></div>
+        <div className="lantern lantern-3"></div>
+        <div className="lantern lantern-4"></div>
+        
+        <div className="ribbon ribbon-1"></div>
+        <div className="ribbon ribbon-2"></div>
+        <div className="ribbon ribbon-3"></div>
+        <div className="ribbon ribbon-4"></div>
+        
+        <div className="ink-splash ink-1"></div>
+        <div className="ink-splash ink-2"></div>
+        <div className="ink-splash ink-3"></div>
+        <div className="ink-splash ink-4"></div>
+        
+        <div className="flying-bird bird-1"></div>
+        <div className="flying-bird bird-2"></div>
+        <div className="flying-bird bird-3"></div>
+        
+        <div className="stars">
+          {generateStars(50)}
+        </div>
+      </div>
+      
+      {/* 背景画布 */}
+      <canvas
+        ref={canvasRef}
+        className="fixed inset-0 w-full h-full"
+        style={{ zIndex: 0 }}
+      />
+      
+      {/* 撒花画布 */}
+      <canvas
+        ref={confettiCanvasRef}
+        className="fixed inset-0 w-full h-full pointer-events-none"
+        style={{ zIndex: 1 }}
+      />
+      
       {/* 密码验证页面 */}
       {!passwordVerified && (
-        <div className="w-full h-full flex items-center justify-center z-50 bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900">
-          <div className="bg-white/10 backdrop-blur-md p-8 rounded-xl shadow-2xl max-w-md w-full mx-4 border border-white/20 transform transition-all">
-            <h2 className="text-3xl font-bold text-center mb-6 text-white">访问验证</h2>
+        <div className="w-full h-full flex items-center justify-center z-50">
+          <div className="ancient-scroll ancient-border max-w-md w-full mx-4">
+            <div className="corner-tl"></div>
+            <div className="corner-tr"></div>
+            <div className="corner-bl"></div>
+            <div className="corner-br"></div>
             
-            <div className="space-y-6">
-              <div className="relative">
-                <label htmlFor="password" className="block mb-2 text-sm font-medium text-blue-200">
-                  请输入密码
-                </label>
-                <input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={handlePasswordChange}
-                  onKeyDown={handleKeyDown}
-                  className={`w-full px-4 py-3 rounded-lg bg-white/10 border ${passwordError ? 'border-red-500' : 'border-blue-300/30'} text-white placeholder-blue-200/50 focus:outline-none focus:ring-2 focus:ring-blue-400`}
-                  placeholder="输入密码以继续..."
-                  autoFocus
-                />
-                {passwordError && (
-                  <p className="mt-2 text-sm text-red-400">密码错误，请重试</p>
+            <div className="scroll-content">
+              <h2 className="ancient-title text-3xl mb-8">玉阙绛阙宫</h2>
+              
+              <p className="ancient-text text-lg mb-6 tracking-wider text-center">
+                须凭仙令，方可入内
+              </p>
+              
+              <div className="space-y-6">
+                <div className="relative">
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={handlePasswordChange}
+                    onKeyDown={handleKeyDown}
+                    className={`ancient-input ${passwordError ? 'border-red-500 animate-shake' : ''}`}
+                    placeholder="请输入密令..."
+                    autoFocus
+                  />
+                  {passwordError && (
+                    <p className="mt-2 text-sm text-red-400 text-center">密令有误，请重试</p>
+                  )}
+                </div>
+                
+                <div className="flex items-center justify-between">
+                  <button
+                    type="button"
+                    onClick={togglePasswordHint}
+                    className="text-sm text-amber-800 hover:text-amber-700 transition-colors"
+                  >
+                    需要提示？
+                  </button>
+                  <button
+                    type="button"
+                    onClick={verifyPassword}
+                    className="ancient-button"
+                  >
+                    验证
+                  </button>
+                </div>
+                
+                {showPasswordHint && (
+                  <div className="mt-4 p-3 bg-amber-800/30 rounded-lg border border-amber-700/30 animate-fadeInUp">
+                    <p className="text-sm text-amber-700 text-center">
+                      <span className="font-semibold">提示：</span> 最简单的6位数字
+                    </p>
+                  </div>
                 )}
               </div>
               
-              <div className="flex items-center justify-between">
-                <button
-                  type="button"
-                  onClick={togglePasswordHint}
-                  className="text-sm text-blue-300 hover:text-blue-100 transition-colors"
-                >
-                  需要提示？
-                </button>
-                <button
-                  type="button"
-                  onClick={verifyPassword}
-                  className="px-5 py-2.5 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium rounded-lg shadow-lg hover:from-blue-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all transform hover:scale-105"
-                >
-                  确认
-                </button>
+              <div className="mt-8 text-center">
+                <p className="text-xs text-amber-800/70">
+                  此乃仙家秘境，非有缘人不可入内
+                </p>
               </div>
-              
-              {showPasswordHint && (
-                <div className="mt-4 p-3 bg-blue-900/50 rounded-lg border border-blue-400/30">
-                  <p className="text-sm text-blue-200">
-                    <span className="font-semibold">提示：</span> 最简单的6位数字
-                  </p>
-                </div>
-              )}
             </div>
             
-            <div className="mt-6 text-center">
-              <p className="text-xs text-blue-200/70">
-                此页面受密码保护，需要正确密码才能访问。
-              </p>
-            </div>
+            <div className="ancient-seal seal-1"></div>
           </div>
         </div>
       )}
@@ -547,182 +531,57 @@ export default function Home() {
       {/* 特效页面 - 仅在密码验证通过后显示 */}
       {passwordVerified && (
         <>
-          {/* 背景动画 Canvas */}
-          <canvas
-            ref={canvasRef}
-            className="absolute top-0 left-0 w-full h-full"
-          />
-          
-          {/* 撒花特效 Canvas */}
-          <canvas
-            ref={confettiCanvasRef}
-            className="absolute top-0 left-0 w-full h-full z-20 pointer-events-none"
-          />
-          
           {/* 主要内容 - 固定在屏幕中央 */}
           <div className="relative z-10 flex flex-col items-center justify-center px-4 text-center max-w-full">
-            <div className="text-center">
-              {/* 顶部装饰 */}
-              <div className="mb-6 text-blue-300 text-lg tracking-wider animate-pulse">
-                <span className="text-yellow-300 text-2xl mx-1">✧</span>
-                <span className="text-pink-300 text-2xl mx-1">♥</span>
-                <span className="text-blue-300 text-2xl mx-1">✦</span>
-                <span className="text-green-300 text-2xl mx-1">✢</span>
-                <span className="text-purple-300 text-2xl mx-1">✴</span>
-                <span className="text-yellow-300 text-2xl mx-1">✦</span>
-              </div>
+            <div className="ancient-scroll ancient-border">
+              <div className="corner-tl"></div>
+              <div className="corner-tr"></div>
+              <div className="corner-bl"></div>
+              <div className="corner-br"></div>
               
-              {/* 主要文字 */}
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-blue-400 via-purple-400 to-pink-400 text-shadow-glow tracking-wide max-w-4xl mx-auto">
-                {displayText.split('').map((letter, index) => (
-                  <span
-                    key={index}
-                    className="inline-block opacity-0 transform translate-y-10 rotate-y-90 scale-50 transition-all duration-800"
-                    style={{
-                      animation: showText ? `fadeInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) ${index * 0.08}s forwards` : 'none',
-                      animationFillMode: 'forwards'
-                    }}
-                    onMouseOver={(e) => {
-                      e.currentTarget.style.color = `hsl(${Math.random() * 360}, 100%, 70%)`
-                      e.currentTarget.style.transform = 'translateY(-15px) scale(1.4) rotate(5deg)'
-                      e.currentTarget.style.textShadow = '0 0 20px currentColor'
-                      e.currentTarget.style.zIndex = '10'
-                    }}
-                    onMouseOut={(e) => {
-                      e.currentTarget.style.color = ''
-                      e.currentTarget.style.transform = 'translateY(0) scale(1) rotate(0)'
-                      e.currentTarget.style.textShadow = ''
-                      e.currentTarget.style.zIndex = '1'
-                    }}
-                  >
-                    {letter}
-                  </span>
-                ))}
-              </h1>
-              
-              {/* 底部装饰 */}
-              <div className="mt-6 text-pink-300 text-lg tracking-wider animate-pulse">
-                <span className="text-purple-300 text-2xl mx-1">✴</span>
-                <span className="text-green-300 text-2xl mx-1">✢</span>
-                <span className="text-blue-300 text-2xl mx-1">✦</span>
-                <span className="text-pink-300 text-2xl mx-1">♥</span>
-                <span className="text-yellow-300 text-2xl mx-1">✧</span>
-                <span className="text-blue-300 text-2xl mx-1">✦</span>
-              </div>
-              
-              {/* 动画完成后的装饰图标 */}
-              {animationComplete && (
-                <div className="mt-8 flex justify-center items-center space-x-4">
-                  <span className="text-4xl text-yellow-300 animate-float">✨</span>
-                  <span className="text-4xl text-pink-300 animate-float-delay-1">💖</span>
-                  <span className="text-4xl text-blue-300 animate-float-delay-2">🌟</span>
-                  <span className="text-4xl text-green-300 animate-float-delay-3">✨</span>
-                  <span className="text-4xl text-purple-300 animate-float-delay-4">💖</span>
+              <div className="scroll-content">
+                {/* 顶部引言 */}
+                <p className="ancient-text text-lg tracking-widest mb-6 text-amber-900 glow-text">
+                  {ancientQuote}
+                </p>
+                
+                {/* 主要文字 */}
+                <h1 className="ancient-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl mb-8 tracking-widest">
+                  {displayText.split('').map((letter, index) => (
+                    <span
+                      key={index}
+                      className="inline-block opacity-0 transform translate-y-10 rotate-y-90 scale-50 transition-all duration-800"
+                      style={{
+                        animation: showText ? `fadeInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) ${index * 0.08}s forwards` : 'none',
+                        animationFillMode: 'forwards'
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.color = `#DAA520`
+                        e.currentTarget.style.transform = 'translateY(-15px) scale(1.4) rotate(5deg)'
+                        e.currentTarget.style.textShadow = '0 0 20px #DAA520'
+                        e.currentTarget.style.zIndex = '10'
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.color = ''
+                        e.currentTarget.style.transform = 'translateY(0) scale(1) rotate(0)'
+                        e.currentTarget.style.textShadow = ''
+                        e.currentTarget.style.zIndex = '1'
+                      }}
+                    >
+                      {letter}
+                    </span>
+                  ))}
+                </h1>
+                
+                {/* 底部装饰 */}
+                <div className="ancient-text text-lg text-amber-900">
+                  <p className="tracking-widest animate-float">
+                    若有缘，君自知
+                  </p>
                 </div>
-              )}
+              </div>
             </div>
           </div>
-          
-          {/* 编辑按钮 - 固定在右下角 */}
-          <button
-            onClick={openEditModal}
-            className="absolute bottom-4 right-4 z-30 bg-white/10 backdrop-blur-md p-2 rounded-full shadow-lg border border-white/20 hover:bg-white/20 transition-all transform hover:scale-110 text-white/70 hover:text-white"
-            title="编辑文字"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-            </svg>
-          </button>
-          
-          {/* 编辑模态框 */}
-          {showEditModal && (
-            <div className="fixed inset-0 z-50 pointer-events-none">
-              <div className="absolute bottom-16 right-4 pointer-events-auto bg-white/10 backdrop-blur-md p-6 rounded-xl shadow-2xl max-w-md w-full sm:w-96 border border-white/20 animate-fadeInUp">
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-xl font-bold text-white">
-                    {showEditForm ? '编辑显示文字' : '验证编辑权限'}
-                  </h3>
-                  <button
-                    onClick={closeEditModal}
-                    className="text-white/70 hover:text-white p-1"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </div>
-                
-                {!showEditForm ? (
-                  // 密码验证表单
-                  <div className="space-y-4">
-                    <div className="relative">
-                      <label htmlFor="editPassword" className="block mb-2 text-sm font-medium text-blue-200">
-                        请输入编辑密码
-                      </label>
-                      <input
-                        id="editPassword"
-                        type="password"
-                        value={editPassword}
-                        onChange={handleEditPasswordChange}
-                        onKeyDown={handleEditPasswordKeyDown}
-                        className={`w-full px-4 py-3 rounded-lg bg-white/10 border ${editPasswordError ? 'border-red-500 animate-shake' : 'border-blue-300/30'} text-white placeholder-blue-200/50 focus:outline-none focus:ring-2 focus:ring-blue-400`}
-                        placeholder="输入密码以编辑文字..."
-                        autoFocus
-                      />
-                      {editPasswordError && (
-                        <p className="mt-2 text-sm text-red-400">密码错误，无法编辑</p>
-                      )}
-                    </div>
-                    
-                    <div className="flex justify-end">
-                      <button
-                        type="button"
-                        onClick={verifyEditPassword}
-                        className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium rounded-lg shadow-lg hover:from-blue-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all"
-                      >
-                        验证
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  // 编辑文字表单
-                  <div className="space-y-4">
-                    <div className="relative">
-                      <label htmlFor="newText" className="block mb-2 text-sm font-medium text-blue-200">
-                        输入新的显示文字
-                      </label>
-                      <input
-                        id="newText"
-                        type="text"
-                        value={newText}
-                        onChange={handleNewTextChange}
-                        className="w-full px-4 py-3 rounded-lg bg-white/10 border border-blue-300/30 text-white placeholder-blue-200/50 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                        placeholder="输入新文字..."
-                        autoFocus
-                      />
-                    </div>
-                    
-                    <div className="flex justify-between">
-                      <button
-                        type="button"
-                        onClick={closeEditModal}
-                        className="px-4 py-2 bg-gray-600/60 text-white font-medium rounded-lg shadow-lg hover:bg-gray-700/60 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all"
-                      >
-                        取消
-                      </button>
-                      <button
-                        type="button"
-                        onClick={saveNewText}
-                        className="px-4 py-2 bg-gradient-to-r from-green-500 to-teal-600 text-white font-medium rounded-lg shadow-lg hover:from-green-600 hover:to-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all"
-                      >
-                        保存
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
         </>
       )}
     </div>
