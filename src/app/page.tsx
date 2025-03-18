@@ -30,8 +30,25 @@ export default function Home() {
   const [showPasswordHint, setShowPasswordHint] = useState(false)
   
   // 中文古风引言
-  const ancientQuote = "云想衣裳花想容，春风拂槛露华浓";
-  const displayText = "杨涵锦就tm是个雷军";
+  const [ancientQuote, setAncientQuote] = useState("云想衣裳花想容，春风拂槛露华浓")
+  const displayText = "杨涵锦就tm是个雷军"
+  
+  // 诗词库 - 经典名句
+  const poetryCollection = [
+    { text: "云想衣裳花想容，春风拂槛露华浓", author: "李白《清平调》" },
+    { text: "人生若只如初见，何事秋风悲画扇", author: "纳兰容若《木兰词》" },
+    { text: "曾经沧海难为水，除却巫山不是云", author: "元稹《离思》" },
+    { text: "东风夜放花千树，更吹落，星如雨", author: "辛弃疾《青玉案》" },
+    { text: "水光潋滟晴方好，山色空蒙雨亦奇", author: "苏轼《饮湖上初晴后雨》" },
+    { text: "落霞与孤鹜齐飞，秋水共长天一色", author: "王勃《滕王阁序》" },
+    { text: "夜来风雨声，花落知多少", author: "孟浩然《春晓》" },
+    { text: "沉舟侧畔千帆过，病树前头万木春", author: "刘禹锡《酬乐天扬州初逢席上见赠》" },
+    { text: "不识庐山真面目，只缘身在此山中", author: "苏轼《题西林壁》" },
+    { text: "两情若是久长时，又岂在朝朝暮暮", author: "秦观《鹊桥仙》" },
+  ]
+  
+  // 额外的古风装饰文字
+  const decorativePhrase = "知音难觅，世间几人能解"
 
   // 验证密码函数
   const verifyPassword = () => {
@@ -65,6 +82,12 @@ export default function Home() {
   // 显示密码提示
   const togglePasswordHint = () => {
     setShowPasswordHint(!showPasswordHint)
+  }
+
+  // 切换诗词函数
+  const changePoetry = () => {
+    const randomIndex = Math.floor(Math.random() * poetryCollection.length)
+    setAncientQuote(poetryCollection[randomIndex].text)
   }
 
   // 背景动画效果
@@ -501,6 +524,13 @@ export default function Home() {
                 须凭仙令，方可入内
               </p>
               
+              {/* 添加随机诗词作为装饰 */}
+              <div className="poetry-decoration mb-5 text-center opacity-70">
+                <p className="text-sm italic text-amber-800/80">
+                  {poetryCollection[Math.floor(Math.random() * poetryCollection.length)].text}
+                </p>
+              </div>
+              
               <div className="space-y-5">
                 <div className="relative">
                   <input
@@ -547,6 +577,9 @@ export default function Home() {
                 <p className="text-xs text-amber-800/70">
                   此乃仙家秘境，非有缘人不可入内
                 </p>
+                <p className="text-xs text-amber-800/60 mt-2 italic">
+                  "千里之行，始于足下"
+                </p>
               </div>
             </div>
             
@@ -558,6 +591,24 @@ export default function Home() {
       {/* 特效页面 - 仅在密码验证通过后显示 */}
       {passwordVerified && (
         <>
+          {/* 诗词漂浮元素 - 背景装饰 */}
+          <div className="poetry-floating-elements pointer-events-none">
+            {poetryCollection.slice(0, 5).map((poetry, index) => (
+              <div 
+                key={index}
+                className={`poetry-float poetry-float-${index} absolute opacity-20 text-amber-800 text-sm`}
+                style={{
+                  top: `${10 + index * 18}%`,
+                  left: `${5 + index * 19}%`,
+                  animation: `float ${5 + index}s ease-in-out infinite ${index * 0.7}s`,
+                  transform: `rotate(${index * 5 - 10}deg)`
+                }}
+              >
+                {poetry.text}
+              </div>
+            ))}
+          </div>
+          
           {/* 主要内容 - 固定在屏幕中央 */}
           <div className="relative z-10 flex flex-col items-center justify-center px-4 text-center max-w-full">
             <div className="ancient-scroll ancient-border">
@@ -567,10 +618,19 @@ export default function Home() {
               <div className="corner-br"></div>
               
               <div className="scroll-content">
-                {/* 顶部引言 */}
-                <p className="ancient-text text-lg tracking-wider mb-4 text-amber-900 glow-text">
-                  {ancientQuote}
-                </p>
+                {/* 顶部引言 - 可点击切换 */}
+                <div 
+                  className="poetry-quote cursor-pointer" 
+                  onClick={changePoetry}
+                  title="点击切换诗词"
+                >
+                  <p className="ancient-text text-lg tracking-wider mb-1 text-amber-900 glow-text">
+                    {ancientQuote}
+                  </p>
+                  <p className="text-xs text-amber-800/60 mb-4 italic poetry-author">
+                    {poetryCollection.find(p => p.text === ancientQuote)?.author || ''}
+                  </p>
+                </div>
                 
                 {/* 主要文字 */}
                 <h1 className="ancient-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl mb-6 tracking-widest">
@@ -604,7 +664,10 @@ export default function Home() {
                 {/* 底部装饰 */}
                 <div className="ancient-text text-lg text-amber-900">
                   <p className="tracking-wider animate-float">
-                    若有缘，君自知
+                    {decorativePhrase}
+                  </p>
+                  <p className="text-xs mt-3 opacity-70 tracking-wider italic">
+                    "自在飞花轻似梦，无边丝雨细如愁"
                   </p>
                 </div>
               </div>

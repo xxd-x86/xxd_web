@@ -2112,4 +2112,160 @@ html, body {
   .scroll-content {
     padding: 0.8rem;
   }
+}
+
+/* 诗词装饰元素样式 */
+.poetry-decoration {
+  position: relative;
+  font-family: "Noto Serif SC", "STSong", "FZShuSong-Z01S", serif;
+}
+
+.poetry-decoration::before,
+.poetry-decoration::after {
+  content: "※";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(139, 69, 19, 0.6);
+  font-size: 0.8rem;
+}
+
+.poetry-decoration::before {
+  left: 15%;
+}
+
+.poetry-decoration::after {
+  right: 15%;
+}
+
+.poetry-float {
+  font-family: "Noto Serif SC", "STSong", "FZShuSong-Z01S", serif;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 250px;
+  filter: blur(0.3px);
+}
+
+@media (max-width: 640px) {
+  .poetry-float {
+    max-width: 150px;
+    font-size: 0.75rem !important;
+  }
+}
+
+.poetry-quote {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.poetry-quote:hover {
+  transform: translateY(-3px);
+}
+
+.poetry-quote:hover::after {
+  content: "点击更换诗词";
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.7rem;
+  color: rgba(139, 69, 19, 0.7);
+  white-space: nowrap;
+  opacity: 0.8;
+}
+
+.poetry-author {
+  font-family: "Noto Serif SC", "STSong", "FZShuSong-Z01S", serif;
+  transition: opacity 0.3s ease;
+}
+
+/* 墨迹装饰 */
+.ink-text {
+  position: relative;
+  overflow: hidden;
+}
+
+.ink-text::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 10%;
+  width: 80%;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(139, 69, 19, 0.3) 20%, 
+    rgba(139, 69, 19, 0.5) 50%,
+    rgba(139, 69, 19, 0.3) 80%,
+    transparent 100%
+  );
+}
+
+/* 毛笔效果文字 */
+.brush-text {
+  font-family: "Ma Shan Zheng", "STXingkai", "FZXingKai-S04S", serif;
+  letter-spacing: 0.1em;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  color: rgba(139, 69, 19, 0.9);
+}
+
+/* 随机飘逸的墨迹动画 */
+@keyframes inkFloat {
+  0%, 100% {
+    opacity: 0.15;
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    opacity: 0.25;
+    transform: translateY(-15px) rotate(3deg);
+  }
+}
+
+/* 诗词元素淡入效果 */
+@keyframes poetryFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.poetry-animate {
+  animation: poetryFadeIn 1s ease-out forwards;
+}
+
+/* 中国风水墨效果 */
+.ink-splash-light {
+  position: absolute;
+  background-image: url('/images/ink-light.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.07;
+  mix-blend-mode: multiply;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* 更多诗词动画延迟 */
+.poetry-delay-1 { animation-delay: 0.3s; }
+.poetry-delay-2 { animation-delay: 0.6s; }
+.poetry-delay-3 { animation-delay: 0.9s; }
+.poetry-delay-4 { animation-delay: 1.2s; }
+.poetry-delay-5 { animation-delay: 1.5s; }
+
+/* 适配小屏幕 */
+@media (max-width: 480px) {
+  .poetry-decoration::before,
+  .poetry-decoration::after {
+    display: none;
+  }
+  
+  .poetry-quote:hover::after {
+    font-size: 0.6rem;
+    bottom: -12px;
+  }
 } 
